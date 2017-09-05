@@ -1,39 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule  } from '@angular/platform-browser';
 
 // App component
 import { AppComponent } from './app.component';
 
-// Core module
-import { CoreModule } from './core';
-
-// Shared module
-import { SharedModule } from './shared';
-
-// Other components
-import { ControlComponent } from './control';
 import { HeaderComponent } from './header';
-import { NicknameComponent } from './nickname';
-import { RoomComponent } from './room';
-import { RoomsComponent } from './rooms';
+import { BodyComponent } from './body';
+import { TailerComponent } from './tailer';
+
 
 @NgModule({
   imports: [
-    CoreModule,
-    SharedModule
+    BrowserModule // by Default imports
   ],
   declarations: [
     AppComponent,
-    ControlComponent,
     HeaderComponent,
-    NicknameComponent,
-    RoomComponent,
-    RoomsComponent
+    BodyComponent,
+    TailerComponent
   ],
-  exports: [
-    CoreModule
-  ],
+  exports: [],
   bootstrap: [
     AppComponent
   ]

@@ -1,6 +1,6 @@
-# angular-socket-io-chat
+# kakao 1:1 chat
 
-An example chat application made with Angular and Socket.io (and NodeJS, ExpressJS and MongoDB).
+An chat application made with Angular and Socket.io (and NodeJS, ExpressJS and MongoDB(MySQL)).
 
 ## Highlights
 
@@ -104,6 +104,7 @@ mongod.exe
 #### Redis
 
 You could use [Microsoft's port of Redis](https://github.com/MSOpenTech/redis/releases), which provides an easy to use installer.
+#> brew services start redis
 
 #### Other notes
 

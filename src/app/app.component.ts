@@ -1,7 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { UserService } from './core';
-
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'app',
@@ -10,5 +8,5 @@ import { UserService } from './core';
 })
 
 export class AppComponent {
-  constructor(public userService: UserService) {}
+  constructor() {}
 }
