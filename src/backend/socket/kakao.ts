@@ -294,7 +294,7 @@ export class KakaoSocket {
         Q.all([this.kakaoDb.dbClearCustomer(content)]).then(function(results){
             re = results[0][0][0];
         }).then(function() {
-            callback(null, JSON.parse(re));
+            callback(null, re);
         })
         .done();
     }
