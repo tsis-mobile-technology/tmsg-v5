@@ -429,6 +429,9 @@ export class KakaoSocket {
                                         var name: string = "";
                                         var calcStartDay: string = "";
                                         var calcEndDay: string = "";
+                                        var media: string = "";
+                                        var financialName: string = "";
+                                        var payMethod: string = "";
                                         
                                         if( jsonData != null && jsonData.list != null && jsonData.list.customer.length > 1 ) {
                                             var responseBody = jsonData.list.customer[0];
@@ -446,6 +449,10 @@ export class KakaoSocket {
                                                 amtUnpmt = amtUnpmt + responseBody.Invoices.invoice.AmtUnpmt;
                                                 amtTrunc = amtTrunc + responseBody.Invoices.invoice.AmtTrunc;
                                                 amtPmt = amtPmt + responseBody.Invoices.invoice.AmtPmt;
+                                                media = media + responseBody.Media;
+                                                financialName = financialName + responseBody.FinancialName;
+                                                payMethod = payMethod + responseBody.PayMethod;
+
                                                 if (i == 0 ) {
                                                     calcStartDay = responseBody.Invoices.invoice.CalcStartDay;
                                                     calcEndDay = responseBody.Invoices.invoice.CalcEndDay;
@@ -456,6 +463,9 @@ export class KakaoSocket {
                                                 if ( i+1 < jsonData.list.customer.length ) {
                                                     service = service + ",";
                                                     name = name + ",";
+                                                    media = media + ",";
+                                                    financialName = financialName + ",";
+                                                    payMethod = payMethod + ",";
                                                 }
                                             }
                                         } else {
@@ -473,7 +483,9 @@ export class KakaoSocket {
                                             amtPmt = amtPmt + responseBody.Invoices.invoice.AmtPmt;
                                             calcStartDay = responseBody.Invoices.invoice.CalcStartDay;
                                             calcEndDay = responseBody.Invoices.invoice.CalcEndDay;
-                                                
+                                            media = media + responseBody.Media;
+                                            financialName = financialName + responseBody.FinancialName;
+                                            payMethod = payMethod + responseBody.PayMethod;
                                         }
 
                                         var printString = "고객님 안녕하세요!" +
@@ -488,13 +500,12 @@ export class KakaoSocket {
                                         "\r\n\r\n[청구 정보]" + 
                                         "\r\n" + "- 납부자명 : " + responseBody.AccountName + //: "김두수"
                                         "\r\n" + "- 납부자번호 : " + responseBody.AccountId + //: 1001155633
-                                        "\r\n" + "- 청구매체 : " + responseBody.Media + //: "이메일"
-                                        "\r\n" + "- 은행/카드명 : " + responseBody.FinancialName + //: "신한카드"
-                                        "\r\n" + "- 납부방법 : " + responseBody.PayMethod + //: "신용카드"
+                                        "\r\n" + "- 청구매체 : " + kakaoSocket.convertArrayCount(media);//responseBody.Media + //: "이메일"
+                                        "\r\n" + "- 은행/카드명 : " + kakaoSocket.convertArrayCount(financialName);//responseBody.FinancialName + //: "신한카드"
+                                        "\r\n" + "- 납부방법 : " + kakaoSocket.convertArrayCount(payMethod); //responseBody.PayMethod + //: "신용카드"
                                         "\r\n" + "- 납부예정일 : " + responseBody.IssueDate + //: 15
-                                        "\r\n" + "- 과금시작일 : " + calcStartDay + //: 20170701
-                                        "\r\n" + "- 과금종료일 : " + calcEndDay + //: 20170731
                                         "\r\n\r\n[" + kakaoSocket.getNowmSevendays() + " 청구 정보]" + 
+                                        "\r\n" + "- 사용일 : " + calcStartDay + " ~ " + calcEndDay + //: 20170731
                                         "\r\n" + "- 당월청구금액 : " + amtCurInv.toLocaleString("krw") + "원" + //: 6600 
                                         "\r\n" + "- 청구월 : " + responseBody.Invoices.invoice.YyyymmInv + //: 201708
                                         "\r\n" + "- 서비스명 : " + kakaoSocket.convertArrayCount(service) + //: "디지털방송"
