@@ -489,7 +489,7 @@ export class KakaoSocket {
                                         }
 
                                         var printString = "고객님 안녕하세요!" +
-                                        "\r\n" + kakaoSocket.getNowmSevendays() + " 요금내역은 다음과 같습니다" +
+                                        "\r\n" + String(responseBody.Invoices.invoice.YyyymmInv).substring(4) + "월 요금내역은 다음과 같습니다" +
                                         "\r\n\r\n[기본 정보]" + 
                                         "\r\n" + "- 고객명 : " + responseBody.Name + //: "김두수"
                                         "\r\n" + "- 고객번호 : " + responseBody.Id + //: 1006218626
@@ -500,11 +500,11 @@ export class KakaoSocket {
                                         "\r\n\r\n[청구 정보]" + 
                                         "\r\n" + "- 납부자명 : " + responseBody.AccountName + //: "김두수"
                                         "\r\n" + "- 납부자번호 : " + responseBody.AccountId + //: 1001155633
-                                        "\r\n" + "- 청구매체 : " + kakaoSocket.convertArrayCount(media);//responseBody.Media + //: "이메일"
-                                        "\r\n" + "- 은행/카드명 : " + kakaoSocket.convertArrayCount(financialName);//responseBody.FinancialName + //: "신한카드"
-                                        "\r\n" + "- 납부방법 : " + kakaoSocket.convertArrayCount(payMethod); //responseBody.PayMethod + //: "신용카드"
+                                        "\r\n" + "- 청구매체 : " + kakaoSocket.convertArrayCount(media) + //responseBody.Media + //: "이메일"
+                                        "\r\n" + "- 은행/카드명 : " + kakaoSocket.convertArrayCount(financialName) + //responseBody.FinancialName + //: "신한카드"
+                                        "\r\n" + "- 납부방법 : " + kakaoSocket.convertArrayCount(payMethod) +  //responseBody.PayMethod + //: "신용카드"
                                         "\r\n" + "- 납부예정일 : " + responseBody.IssueDate + //: 15
-                                        "\r\n\r\n[" + kakaoSocket.getNowmSevendays() + " 청구 정보]" + 
+                                        "\r\n\r\n[" + String(responseBody.Invoices.invoice.YyyymmInv).substring(4) + "월 청구 정보]" + 
                                         "\r\n" + "- 사용일 : " + calcStartDay + " ~ " + calcEndDay + //: 20170731
                                         "\r\n" + "- 당월청구금액 : " + amtCurInv.toLocaleString("krw") + "원" + //: 6600 
                                         "\r\n" + "- 청구월 : " + responseBody.Invoices.invoice.YyyymmInv + //: 201708
@@ -817,7 +817,12 @@ export class KakaoSocket {
 
         for (var i = 0; i < results.length; i++) {
             // str = str + "\t" + results[results[i].toString()] + ": " + "\t" + results[i] + "\n";
-            str = str + results[i] + " " + results[results[i].toString()] + "개";
+            if( i== 0 ) {
+                str = str + results[i] + " ";
+            } else {
+                str = str + results[i] + " " + results[results[i].toString()] + "개";
+            }
+            
             if ( i+1 < results.length ) {
                 str = str + ",";
             }
