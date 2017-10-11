@@ -590,7 +590,8 @@ export class KakaoSocket {
     public insertHistoryAndCallback(content: string, user_key: string, re: any, err:any, callback: any) {
         var Q = require('q');
         Q.all([this.kakaoDb.dbSaveHistory(content, user_key, re)]).then(function(results) {
-            //console.log(JSON.stringify(results));
+            console.log(JSON.stringify(results));
+        }).then(function() {
             console.log("insertHistoryAndCallback:" + err + "," + JSON.stringify(re));
             callback(err, re);
         }).done();
