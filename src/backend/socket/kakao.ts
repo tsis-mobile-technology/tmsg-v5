@@ -309,6 +309,7 @@ export class KakaoSocket {
         var kakaoSocket = this;
         var Q = require('q');
         var validator = require('validator');
+        // var localeString = require('number-to-locale-string');
 
         if(user_key != null && content != null) {
 
@@ -359,7 +360,8 @@ export class KakaoSocket {
                                             }).done();
                                         } else {
                                             if( results == "E99999" || results == "E00001" || results == "E00002" ||
-                                                results == "E00003" || results == "E00004" || results == "E10000" ) {
+                                                results == "E00003" || results == "E00004" || results == "E10000" ||
+                                                results == "E00005" || results == "E00006") {
                                                 re = kakaoSocket.findScenario(results);
                                             } else {
                                                 re = kakaoSocket.findScenario("SYS_ERR");
@@ -416,6 +418,7 @@ export class KakaoSocket {
                                         results == "E00003" || results == "E00004" || results == "E10000" ) {
                                           re = kakaoSocket.findScenario(results);
                                     } else if( String(results).length > 6) {
+console.log(JSON.stringify(results));
                                         var jsonData = JSON.parse(results);
                                         var amtCurInv = new Number();
                                         var amtUse = new Number();
@@ -513,9 +516,7 @@ export class KakaoSocket {
                                         "\r\n" + "- 할인금액 : " + amtDc.toLocaleString("krw") +  "원" + //: -21000
                                         "\r\n" + "- 청구금액 : " + amtSupply.toLocaleString("krw") +  "원" + //: 6000
                                         "\r\n" + "- 부가세 : " + amtVat.toLocaleString("krw") +  "원" + //: 600
-                                        "\r\n" + "- 미납액 : " + amtUnpmt.toLocaleString("krw") +  "원" + //: 0
                                         "\r\n" + "- 절사 : " + amtTrunc.toLocaleString("krw") +  "원" + //: 0
-                                        "\r\n" + "- 납부금액 : " + amtPmt.toLocaleString("krw") + "원" + //: 6600
                                         "\r\n\r\n" + "감사합니다.";
                                         // "\r\n" + "- 상품명 : " + name + //: "I-DIGITAL HD_2012"
                                         //"\r\n" + "- 상품정보 : " + responseBody.Products + //: ""
@@ -537,6 +538,8 @@ export class KakaoSocket {
                                         //"\r\n" + "계열사코드   : " + responseBody.IdSo + //: 4200
                                         //"\r\n" + "은행/카드번호 : " + responseBody.Account + //: "451842120342****"
                                         // "\r\n" + "- 총 미납금액 : " + responseBody.SumAmtCurNonpmt + //: ""
+                                        // "\r\n" + "- 납부금액 : " + amtPmt.toLocaleString("krw") + "원" + //: 6600
+                                        // "\r\n" + "- 미납액 : " + amtUnpmt.toLocaleString("krw") +  "원" + //: 0
                                         re = {"keyboard":{"buttons":["처음으로"], "type":"buttons"},"message":{"text":printString}};
                                     } else {
                                         re = kakaoSocket.findScenario("SYS_ERR");
@@ -597,36 +600,36 @@ export class KakaoSocket {
         }).done();
     }
 
-    public checkCustomerInfo(rtnStr: any): any {
-        var updateType = null;
-        var contentValidation = null;
-        var re = null;
+    // public checkCustomerInfo(rtnStr: any): any {
+    //     var updateType = null;
+    //     var contentValidation = null;
+    //     var re = null;
 
-        if( rtnStr == null) {
-            updateType = "INS_PHONE";
-            re = this.findScenario("PHONE");
-            return re;
-        } else if (rtnStr != null && rtnStr.PHONE == null ) {
-            updateType = "UPD_PHONE";
-            re = this.findScenario("PHONE");
-            return re;
-        } else if (rtnStr != null && rtnStr.PHONE != null && rtnStr.NAME == null ) {
-            updateType = "NAME";
-            re = this.findScenario("NAME");
-            return re;
-        } else if (rtnStr != null && rtnStr.PHONE != null && rtnStr.NAME != null && rtnStr.YN_AUTH == 'N' ) {
-            updateType = "AUTH";
-            re = this.findScenario("AUTH");
-        } else if (rtnStr != null && rtnStr.PHONE != null && rtnStr.NAME != null && rtnStr.YN_AUTH == 'Y' ) {
-            updateType = "AUTH_OK";
-            re = null;
-            return re;
-        } else {
-            re = this.findScenario("AUTH_NOK");
-        }
+    //     if( rtnStr == null) {
+    //         updateType = "INS_PHONE";
+    //         re = this.findScenario("PHONE");
+    //         return re;
+    //     } else if (rtnStr != null && rtnStr.PHONE == null ) {
+    //         updateType = "UPD_PHONE";
+    //         re = this.findScenario("PHONE");
+    //         return re;
+    //     } else if (rtnStr != null && rtnStr.PHONE != null && rtnStr.NAME == null ) {
+    //         updateType = "NAME";
+    //         re = this.findScenario("NAME");
+    //         return re;
+    //     } else if (rtnStr != null && rtnStr.PHONE != null && rtnStr.NAME != null && rtnStr.YN_AUTH == 'N' ) {
+    //         updateType = "AUTH";
+    //         re = this.findScenario("AUTH");
+    //     } else if (rtnStr != null && rtnStr.PHONE != null && rtnStr.NAME != null && rtnStr.YN_AUTH == 'Y' ) {
+    //         updateType = "AUTH_OK";
+    //         re = null;
+    //         return re;
+    //     } else {
+    //         re = this.findScenario("AUTH_NOK");
+    //     }
 
-        return re;
-    }
+    //     return re;
+    // }
 
     public getMTEventJSONTypeTK001Request(name:string, phone:string, uniqueid:string, pool:any, rtnStr:any): string {
         var Q      = require("q");
@@ -920,33 +923,33 @@ export interface TB_AUTOCHAT_SCENARIO {
     ETC3: string;
 }
 
-export interface IN_CODE {
-    Code: string; //<Code>0000</Code>  
-}
+// export interface IN_CODE {
+//     Code: string; //<Code>0000</Code>  
+// }
 
-export interface IN0002_CUSTOMER {
-    Name: string;
-    Id: string;
-    IdSo: string;
-    Address: string;
-    Phone: string;
-    HandPhone: string;
-    Email: string;
-    AccountName: string;
-    AccountId: string;
-    IssueDate: string;
-    PayMethod: string;
-    Media: string;
-    FinancialName: string;
-    Account: string;
-    Status: string;
-    Social: string;
-    Products: string;
-    SumAmtCurInv: string;
-    SumAmtCurNonpmt: string;
-}
+// export interface IN0002_CUSTOMER {
+//     Name: string;
+//     Id: string;
+//     IdSo: string;
+//     Address: string;
+//     Phone: string;
+//     HandPhone: string;
+//     Email: string;
+//     AccountName: string;
+//     AccountId: string;
+//     IssueDate: string;
+//     PayMethod: string;
+//     Media: string;
+//     FinancialName: string;
+//     Account: string;
+//     Status: string;
+//     Social: string;
+//     Products: string;
+//     SumAmtCurInv: string;
+//     SumAmtCurNonpmt: string;
+// }
 
-export interface IN0002_RESULT {
-    customer: IN0002_CUSTOMER[]; 
-    code: IN_CODE[];   
-}
+// export interface IN0002_RESULT {
+//     customer: IN0002_CUSTOMER[]; 
+//     code: IN_CODE[];   
+// }
