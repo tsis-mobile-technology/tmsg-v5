@@ -333,7 +333,8 @@ export class KakaoSocket {
                             if( customerAuthIngInfo.PHONE == null ) {
                                 if( validator.isDecimal(content) != true ) { // 숫자 비교해서 같은면
                                     re = kakaoSocket.findScenario("PHONE_NOK");
-                                    if(re != null) kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                    // 혹시 두번 호출해서 오류가 올라오나 막아본다, 2017.10.18
+                                    //if(re != null) kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
                                 } else {
                                     Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Phone", content, user_key)]).then(function(results) {
                                         console.log("dbSaveCustomer call!");
@@ -415,7 +416,8 @@ export class KakaoSocket {
                                 if( results != null ) {
                                     console.log("rtnStr:" + results.length);
                                     if( results == "E99999" || results == "E00001" || results == "E00002" ||
-                                        results == "E00003" || results == "E00004" || results == "E10000" ) {
+                                        results == "E00003" || results == "E00004" || results == "E10000" ||
+                                        results == "E00005" || results == "E00006") {
                                           re = kakaoSocket.findScenario(results);
                                     } else if( String(results).length > 6) {
 console.log(JSON.stringify(results));
