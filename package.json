@@ -83,7 +83,8 @@
     "body-parser": "~1.15.2",
     "validator": "~7.2.0",
     "q": "1.5.0",
-    "mysql": "*"
+    "mysql": "*",
+    "utf8-bytes":"*"
   },
   "devDependencies": {
     "@types/webpack": "^3.0.4",

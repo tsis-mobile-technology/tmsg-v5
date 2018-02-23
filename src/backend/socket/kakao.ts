@@ -640,9 +640,9 @@ console.log(JSON.stringify(results));
         //this.ls = this.spawn('/Users/gotaejong/projects/WorkspacesHTML5/tmsg-v3/shorturl');
         //this.ls = this.spawn('/Users/gotaejong/Addondisk/tmsg-v3/shorturl');
         // linux case
-        //this.ls = this.spawn('/home/proidea/workspaceHTML5/tmsg-v3/shorturl');
+        this.ls = this.spawn('/home/proidea/workspaceHTML5/tmsg-v5/shorturl');
         // tbroad case
-        this.ls = this.spawn('/home/icr/201708/tmsg-v3/shorturl');
+        //this.ls = this.spawn('/home/icr/201708/tmsg-v3/shorturl');
         var mtIP = this.mtIP;
         var mtPort = this.mtPort;
         this.ls.stdout.on(
