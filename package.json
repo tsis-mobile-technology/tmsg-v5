@@ -84,7 +84,7 @@
     "validator": "~7.2.0",
     "q": "1.5.0",
     "mysql": "*",
-    "utf8-bytes":"*"
+    "utf8-byte-length":"*"
   },
   "devDependencies": {
     "@types/webpack": "^3.0.4",

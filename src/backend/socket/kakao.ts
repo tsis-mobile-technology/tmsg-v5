@@ -717,7 +717,7 @@ console.log(JSON.stringify(results));
         var Q      = require("q");
         var deferred = Q.defer();
         var readBuffer:string;
-        var bytes = require('utf8-length');
+        var bytes = require('utf8-byte-length');
 
         var mtIP = this.mtIP;
         var mtPort = this.mtPort;
@@ -838,7 +838,7 @@ console.log(JSON.stringify(results));
     }
 
     public setTK001RequestHeader(requestBody: string ): string {
-        var bytes = require('utf8-length');
+        var bytes = require('utf8-byte-length');
 
         // var Length = 100 + requestBody.length;
         var Length = 100 + bytes(requestBody);
@@ -865,7 +865,7 @@ console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
     }
 
     public setTK002RequestHeader(requestBody: string ): string {
-        var bytes = require('utf8-length');
+        var bytes = require('utf8-byte-length');
 
         // var Length = 100 + requestBody.length;
         var Length = 100 + bytes(requestBody);
