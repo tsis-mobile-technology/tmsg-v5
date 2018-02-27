@@ -202,6 +202,53 @@ export class TK002Response implements TK002_RESPONSE_list {
     }
 }
 
+export interface TK003_REQUEST {
+    UniqueID: string;
+}
+
+export interface TK003RequestConstructor {
+    new (     
+        UniqueID: string
+        ): TK003_REQUEST;
+}
+
+export class TK003Request implements TK003_REQUEST {
+    UniqueID: string;
+
+    constructor(
+        UniqueID: string) {
+        this.UniqueID   = UniqueID;
+    }
+}
+
+export interface TK003_RESPONSE_list {
+    Seq: string;
+    Msg: string;
+}
+
+export interface TK003_RESPONSE_code {
+    Code: string;
+}
+
+export interface TK003ResponseConstructor {
+    new (     
+        Seq: string,
+        Msg: string
+        ): TK003_RESPONSE_list;
+}
+
+export class TK003Response implements TK003_RESPONSE_list {
+    Seq: string;
+    Msg: string;
+
+    constructor(
+        Seq: string,
+        Msg: string) {
+        this.Seq   = Seq;
+        this.Msg   = Msg;
+    }
+}
+
 export class KakaoSocket {
     private mtIP: string;
     private mtURL: string;
@@ -230,10 +277,12 @@ export class KakaoSocket {
         this.inputDatas = io;
         this.kakaoDb = db;
         this.mtURL = "http://125.132.2.120:30063";
-        // this.mtIP = "125.132.2.120";
-        // this.mtPort = 30063;
-        this.mtIP = "125.132.2.111";
+        //DEV
+        this.mtIP = "125.132.2.120";
         this.mtPort = 30063;
+        //LIVE
+        //this.mtIP = "125.132.2.111";
+        //this.mtPort = 30063;
 
         this.hpURL = "http://172.16.180.224:30034"; //dev
         // this.hpURL = "http://172.16.28.27:30034"; //live
@@ -415,6 +464,59 @@ export class KakaoSocket {
                     }
                     else { 
                         if( etc3 == "interface" && customerAuthOkInfo != null ) {
+                            /* 20180227 new version TK003 start */
+                            re = null;
+                            Q.all([kakaoSocket.getMTEventJSONTypeTK003Request( user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
+                                if( results != null ) {
+console.log("rtnStr:" + results.length);
+                                    if( results == "E99999" || results == "E00001" || results == "E00002" ||
+                                        results == "E00003" || results == "E00004" || results == "E10000" ||
+                                        results == "E00005" || results == "E00006") {
+                                          re = kakaoSocket.findScenario(results);
+                                    } else if( String(results).length > 6) {
+console.log(JSON.stringify(results));
+                                        var jsonData = JSON.parse(results);
+                                        var Seq: string = "";
+                                        var Msg: string = "";
+                                        
+                                        if( jsonData != null && jsonData.pay != null && jsonData.pay.length > 1 ) {
+                                            var responseBody = jsonData.pay[0];
+console.log("responseBody:" + JSON.stringify(responseBody));
+
+                                            for ( var i = 0; i < jsonData.pay.length; i++ ) {
+                                                responseBody = jsonData.pay[i];
+                                                Seq = Seq + responseBody.Seq;
+                                                Msg = Msg + responseBody.Msg;
+
+                                                if ( i+1 < jsonData.pay.length ) {
+                                                    Seq = Seq + ",";
+                                                    Msg = Msg + ",";
+                                                }
+                                            }
+                                        } else {
+                                            var responseBody = jsonData.pay;
+console.log("responseBody:" + JSON.stringify(responseBody));
+                                            Seq = Seq + responseBody.Seq;
+                                            Msg = Msg + responseBody.Msg;
+                                        }
+
+                                        var printString = "고객님 안녕하세요!" +
+                                        "\r\n\r\n" + 
+                                        "\r\n" + "- : " + Seq + //: "김두수"
+                                        "\r\n" + "" + Msg + //: 1006218626
+                                        "\r\n\r\n" + "감사합니다.";
+                                        re = {"keyboard":{"buttons":["처음으로"], "type":"buttons"},"message":{"text":printString}};
+                                    } else {
+                                        re = kakaoSocket.findScenario("SYS_ERR");
+                                    }
+                                }
+                            }).then(function() {
+                                // callback(null, re);
+                                if( re != null )
+                                    kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                            }).done();
+                            /* 20180227 new version TK003 end */
+                            /* 20180227 old version
                             //20170824
                             re = null;
                             Q.all([kakaoSocket.getMTEventJSONTypeTK002Request( user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
@@ -556,7 +658,8 @@ console.log(JSON.stringify(results));
                                 // callback(null, re);
                                 if( re != null )
                                     kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
-                            }).done(); 
+                            }).done();
+                            */
                         } else if( etc3 == "interface" && customerAuthOkInfo == null ) {
                             re = kakaoSocket.findScenario("PHONE");
                             
@@ -782,6 +885,70 @@ console.log("returnCode:" + returnCode);
         return deferred.promise;
     }
 
+    public getMTEventJSONTypeTK003Request(uniqueid:string, pool:any, rtnStr:any): string {
+        var Q      = require("q");
+        var deferred = Q.defer();
+        var readBuffer:string;
+        var bytes = require('utf8-byte-length');
+
+        var mtIP = this.mtIP;
+        var mtPort = this.mtPort;
+
+        var requestBody = this.setTK003RequestData(TK003Request, uniqueid);
+        var sendData = this.setTK003RequestHeader( JSON.stringify(requestBody));
+
+        // var sendData = messageSize + sendMessage;
+        console.log('CONNECTED TO: ' + mtIP + ':' + mtPort + "," + sendData);
+        readBuffer = "";
+        var client = new this.net.Socket();
+        client.setTimeout(1200);
+        client.setEncoding('utf8');
+        client.setNoDelay(true);
+        //client.setKeepAlive(true,1200);
+        client.connect(mtPort, mtIP, function () {
+            // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client 
+            client.write(sendData);
+        });
+
+        // Add a 'data' event handler for the client socket
+        // data is what the server sent to this socket
+        client.on('data', function (data) {
+            
+            readBuffer = readBuffer + data;
+            console.log(readBuffer);
+            //client.destroy();
+        });//.resume().on('data', function (data) {console.log("2nd data:" + data.toString());});
+        // Add a 'close' event handler for the client socket
+        client.on('close', function () {
+            console.log('Connection closed');
+            
+        });
+
+        client.on('timeout', function() {
+            console.log('Socket Timeout'); 
+            // deferred.resolve("timeout");
+            var returnCode = readBuffer.substring(44).substring(0, 6);
+            console.log("returnCode:" + returnCode);
+            if( returnCode == "E00000") {
+                var returnJSON = readBuffer.substring(100).substring(0);
+                deferred.resolve(returnJSON);
+            }
+            else if( String(returnCode).length > 1 ) {
+                deferred.resolve(returnCode);
+            } else {
+                //client.setNoDelay(true); 동 코드를 넣지 않을 경우 Timeout이 두번 발생할 경우 문제가 있다. 
+                //deferred.resolve("E99999");
+            }
+        });
+
+        client.on('error', function(error) {
+            console.log('Socket Error:' + error); 
+            deferred.resolve("socketerr");
+        });
+
+        return deferred.promise;
+    }
+
     private getNowyyyymmddhhmmss(): string {
         var now = new Date();
         var yyyy = now.getFullYear();
@@ -853,7 +1020,7 @@ console.log("returnCode:" + returnCode);
         var Flag = "S";
         var ResultCode = "E00000";
         var filler = " ";
-console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
+//console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
         return this.lpad(Length, 10) +
             Type + 
             SendDate +
@@ -880,6 +1047,28 @@ console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
         var Flag = "S";
         var ResultCode = "E00000";
         var filler = " ";
+//console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
+        return this.lpad(Length, 10) +
+            Type + 
+            SendDate +
+            ReSendDate +
+            Flag +
+            ResultCode +
+            this.lpadBlank(filler, 50) +
+            requestBody;
+    }
+
+    public setTK003RequestHeader(requestBody: string ): string {
+        var bytes = require('utf8-byte-length');
+
+        // var Length = 100 + requestBody.length;
+        var Length = 100 + bytes(requestBody);
+        var Type = "TK003";
+        var SendDate = this.getNowyyyymmddhhmmss();
+        var ReSendDate = this.getNowyyyymmddhhmmss();
+        var Flag = "S";
+        var ResultCode = "E00000";
+        var filler = " ";
 console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
         return this.lpad(Length, 10) +
             Type + 
@@ -898,6 +1087,15 @@ console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
 
     public setTK002ResponseData(reqJsondata: TK002ResponseConstructor, customer: TK002_RESPONSE_customer, code: TK002_RESPONSE_code ): TK002Response {
         return new reqJsondata(customer, code);
+    }
+
+    public setTK003RequestData(reqJsondata: TK003RequestConstructor, uniqueid:string): TK003Request {
+        return new reqJsondata(uniqueid);
+
+    }
+
+    public setTK003ResponseData(reqJsondata: TK003ResponseConstructor, Seq:string, Msg:string ): TK003Response {
+        return new reqJsondata(Seq, Msg);
     }
 
     // public setTK002ResponseData(reqJsondata: TK002ResponseConstructor, list:TK002_RESPONSE_list): TK002Response {
@@ -929,34 +1127,3 @@ export interface TB_AUTOCHAT_SCENARIO {
     ETC2: string;
     ETC3: string;
 }
-
-// export interface IN_CODE {
-//     Code: string; //<Code>0000</Code>  
-// }
-
-// export interface IN0002_CUSTOMER {
-//     Name: string;
-//     Id: string;
-//     IdSo: string;
-//     Address: string;
-//     Phone: string;
-//     HandPhone: string;
-//     Email: string;
-//     AccountName: string;
-//     AccountId: string;
-//     IssueDate: string;
-//     PayMethod: string;
-//     Media: string;
-//     FinancialName: string;
-//     Account: string;
-//     Status: string;
-//     Social: string;
-//     Products: string;
-//     SumAmtCurInv: string;
-//     SumAmtCurNonpmt: string;
-// }
-
-// export interface IN0002_RESULT {
-//     customer: IN0002_CUSTOMER[]; 
-//     code: IN_CODE[];   
-// }
