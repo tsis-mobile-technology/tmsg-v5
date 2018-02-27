@@ -309,6 +309,7 @@ export class KakaoSocket {
         var kakaoSocket = this;
         var Q = require('q');
         var validator = require('validator');
+        var bFlag = true; //insertHistoryAndCallback call true/false check
         // var localeString = require('number-to-locale-string');
 
         if(user_key != null && content != null) {
@@ -355,7 +356,7 @@ export class KakaoSocket {
                                         
                                         if( results != null && results == "success" ) {
                                             //re = results;
-                                            console.log("rtnStr:" + results + "," + kakaoSocket.nOTP);
+                                            console.log("if:rtnStr:" + results + "," + kakaoSocket.nOTP);
                                             Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Otp", kakaoSocket.nOTP, user_key)]).then(function(results) {
                                                 console.log("dbSaveCustomer call!");
                                             }).done();
@@ -367,22 +368,26 @@ export class KakaoSocket {
                                             } else {
                                                 re = kakaoSocket.findScenario("SYS_ERR");
                                             }
-                                            console.log("rtnStr:" + results + "," + kakaoSocket.nOTP);
+                                            console.log("else:rtnStr:" + results + "," + kakaoSocket.nOTP);
                                             if( re != null ) {
                                                 kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                                bFlag = false;
                                             }
                                         }
                                     }).then(function() {
                                         // callback(null, re);
                                         re = kakaoSocket.findScenario("AUTH");
                                         //20170824
-                                        if( re != null ) {
+                                        if( re != null && bFlag == true) {
                                             kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                            bFlag = false;
                                         }
                                     }).done();
                                 }).then(function() {
-                                    if( re != null ) {
+                                    if( re != null && bFlag == true ) {
+                                        //test20180227
                                         kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                        bFlag = false;
                                     }
                                 }).done();
                             } else if( customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME != null && customerAuthIngInfo.ETC1 != null ) {
@@ -637,10 +642,10 @@ console.log(JSON.stringify(results));
         var Q      = require("q");
         var deferred = Q.defer();
         // local case
-        //this.ls = this.spawn('/Users/gotaejong/projects/WorkspacesHTML5/tmsg-v3/shorturl');
+        this.ls = this.spawn('/Users/gotaejong/projects/WorkspacesHTML5/tmsg-v5/shorturl');
         //this.ls = this.spawn('/Users/gotaejong/Addondisk/tmsg-v3/shorturl');
         // linux case
-        this.ls = this.spawn('/home/proidea/workspaceHTML5/tmsg-v5/shorturl');
+        //this.ls = this.spawn('/home/proidea/workspaceHTML5/tmsg-v5/shorturl');
         // tbroad case
         //this.ls = this.spawn('/home/icr/201708/tmsg-v3/shorturl');
         var mtIP = this.mtIP;
@@ -666,7 +671,7 @@ console.log(JSON.stringify(results));
                         var str = new String(data);
                         //test 0000000102TK00120170823230327201708232303281E99999
                         var returnCode = str.substring(44).substring(0, 6);
-                        console.log("returnCode:" + returnCode);
+console.log("returnCode:" + returnCode);
                         if( returnCode == "E00000")
                             deferred.resolve("success");
                         else

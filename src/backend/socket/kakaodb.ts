@@ -18,7 +18,7 @@ this.pool = this.mysql.createPool({
  connectionLimit: 10, //important
  host     : 'localhost',
  user     : 'icr',
- password : '1q2w3e4r',
+ password : '1q2w3e4r5t',
  port     : 3306,
  database : 'SMART_MESSAGE_VERTWO',
  debug: false
