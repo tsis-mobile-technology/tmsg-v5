@@ -1,76 +1,15 @@
-
-export interface TK001_REQUEST {
-    // Length: number;        // 10
-    // Type: string;          // 5
-    // SendDate: string;      // 14
-    // ReSendDate: string;    // 14
-    // Flag: string;          // 1
-    // ResultCode: string;    // 6
-    // filler: string;        // 50
-    CustName: string;
-    CustPhone: string;
-    UniqueID: string;
-    SendType: string;
-    MsgType: string;
-    MsgContents: string;
-    SendPhone: string;
-    RecvPhone: string;
-}
-
-export interface TK001RequestConstructor {
-    new (
-        // Length: number,  
-        // Type: string,        
-        // SendDate: string,    
-        // ReSendDate: string,   
-        // Flag: string,         
-        // ResultCode: string,    
-        // filler: string,        
-        CustName: string,
-        CustPhone: string,
-        UniqueID: string,
-        SendType: string,
-        MsgType: string,
-        MsgContents: string,
-        SendPhone: string,
-        RecvPhone: string
-        ): TK001_REQUEST;
-}
-
-export class TK001Request implements TK001_REQUEST {
-    // Length: number;        // 10
-    // Type: string;          // 5
-    // SendDate: string;      // 14
-    // ReSendDate: string;    // 14
-    // Flag: string;          // 1
-    // ResultCode: string;    // 6
-    // filler: string;        // 50
-    CustName: string;
-    CustPhone: string;
-    UniqueID: string;
-    SendType: string;
-    MsgType: string;
-    MsgContents: string;
-    SendPhone: string;
-    RecvPhone: string;
-
-    constructor(
-        // Length: number,  
-        // Type: string,        
-        // SendDate: string,    
-        // ReSendDate: string,   
-        // Flag: string,         
-        // ResultCode: string,    
-        // filler: string,        
-        CustName: string,
-        CustPhone: string,
-        UniqueID: string,
-        SendType: string,
-        MsgType: string,
-        MsgContents: string,
-        SendPhone: string,
-        RecvPhone: string) {
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var TK001Request = /** @class */ (function () {
+    function TK001Request(
+    // Length: number,  
+    // Type: string,        
+    // SendDate: string,    
+    // ReSendDate: string,   
+    // Flag: string,         
+    // ResultCode: string,    
+    // filler: string,        
+    CustName, CustPhone, UniqueID, SendType, MsgType, MsgContents, SendPhone, RecvPhone) {
         // this.Length     = Length;
         // this.Type       = Type;             
         // this.SendDate   = SendDate;
@@ -78,202 +17,64 @@ export class TK001Request implements TK001_REQUEST {
         // this.Flag       = Flag;       
         // this.ResultCode = ResultCode;       
         // this.filler     = filler; 
-        this.CustName   = CustName;
-        this.CustPhone  = CustPhone;
-        this.UniqueID   = UniqueID;
-        this.SendType   = SendType;
-        this.MsgType    = MsgType;
+        this.CustName = CustName;
+        this.CustPhone = CustPhone;
+        this.UniqueID = UniqueID;
+        this.SendType = SendType;
+        this.MsgType = MsgType;
         this.MsgContents = MsgContents;
-        this.SendPhone  = SendPhone;
-        this.RecvPhone  = RecvPhone;
+        this.SendPhone = SendPhone;
+        this.RecvPhone = RecvPhone;
     }
-}
-
-export interface TK002_REQUEST {
-    UniqueID: string;
-    MonthCnt: string;
-}
-
-export interface TK002RequestConstructor {
-    new (     
-        UniqueID: string,
-        MonthCnt: string
-        ): TK002_REQUEST;
-}
-
-export class TK002Request implements TK002_REQUEST {
-    UniqueID: string;
-    MonthCnt: string;
-
-    constructor(
-        UniqueID: string,
-        MonthCnt: string) {
-        this.UniqueID   = UniqueID;
-        this.MonthCnt   = MonthCnt;
+    return TK001Request;
+}());
+exports.TK001Request = TK001Request;
+var TK002Request = /** @class */ (function () {
+    function TK002Request(UniqueID, MonthCnt) {
+        this.UniqueID = UniqueID;
+        this.MonthCnt = MonthCnt;
     }
-}
-
-export interface TK002_RESPONSE_invoice {
-    YyyymmInv: number;
-    Service: string;
-    Name: string;
-    AmtUse: number;
-    AmtDc: number;
-    AmtCurInv: number;
-    AmtPmt: number;
-    AmtUnpmt: number;
-    AmtSupply: number;
-    AmtVat: number;
-    AmtTrunc: number;
-    CalcStartDay: number;
-    CalcEndDay: number;
-    ProdUseDtls: TK002_RESPONSE_produsedtls;
-}
-
-export interface TK002_RESPONSE_invoices {
-    invoice: TK002_RESPONSE_invoice[];
-}
-
-export interface TK002_RESPONSE_produsedtl {
-    ChrgItmGrp: string;
-    ChrgItm: string;
-    AmtUse: number;
-    AmtDc: number;
-    AmtCurInv: number;
-    AmtPmt: number;
-    AmtUnpmt: number;
-    AmtSupply: number;
-    AmtVat: number;
-    AmtTrunc: number;
-}
-
-export interface TK002_RESPONSE_produsedtls {
-    produsedtl: TK002_RESPONSE_produsedtl[];
-}
-
-export interface TK002_RESPONSE_customer {
-    Name: string;
-    Id: number;
-    IdSo: number;
-    Address: string;
-    Phone: string;
-    HandPhone: string;
-    Email: string;
-    AccountName: string;
-    AccountId: number;
-    IssueDate: number;
-    PayMethod: string;
-    Media: string;
-    FinancialName: string;
-    Account: number;
-    Status: number;
-    Social: number;
-    Products: string;
-    SumAmtCurInv: number;
-    SumAmtCurNonpmt: number;
-    Invoices: TK002_RESPONSE_invoices;
-}
-
-export interface TK002_RESPONSE_code {
-    Code: string;
-}
-
-export interface TK002_RESPONSE_list {
-    customer: TK002_RESPONSE_customer;
-    code: TK002_RESPONSE_code;
-}
-
-export interface TK002ResponseConstructor {
-    new (     
-        customer: TK002_RESPONSE_customer,
-        code: TK002_RESPONSE_code
-        ): TK002_RESPONSE_list;
-}
-
-export class TK002Response implements TK002_RESPONSE_list {
-    customer: TK002_RESPONSE_customer;
-    code: TK002_RESPONSE_code;
-
-    constructor(
-        customer: TK002_RESPONSE_customer,
-        code: TK002_RESPONSE_code) {
-        this.customer   = customer;
-        this.code       = code;
+    return TK002Request;
+}());
+exports.TK002Request = TK002Request;
+var TK002Response = /** @class */ (function () {
+    function TK002Response(customer, code) {
+        this.customer = customer;
+        this.code = code;
     }
-}
-
-export interface TK003_REQUEST {
-    UniqueID: string;
-}
-
-export interface TK003RequestConstructor {
-    new (     
-        UniqueID: string
-        ): TK003_REQUEST;
-}
-
-export class TK003Request implements TK003_REQUEST {
-    UniqueID: string;
-
-    constructor(
-        UniqueID: string) {
-        this.UniqueID   = UniqueID;
+    return TK002Response;
+}());
+exports.TK002Response = TK002Response;
+var TK003Request = /** @class */ (function () {
+    function TK003Request(UniqueID) {
+        this.UniqueID = UniqueID;
     }
-}
-
-export interface TK003_RESPONSE_list {
-    Seq: string;
-    Msg: string;
-}
-
-export interface TK003_RESPONSE_code {
-    Code: string;
-}
-
-export interface TK003ResponseConstructor {
-    new (     
-        Seq: string,
-        Msg: string
-        ): TK003_RESPONSE_list;
-}
-
-export class TK003Response implements TK003_RESPONSE_list {
-    Seq: string;
-    Msg: string;
-
-    constructor(
-        Seq: string,
-        Msg: string) {
-        this.Seq   = Seq;
-        this.Msg   = Msg;
+    return TK003Request;
+}());
+exports.TK003Request = TK003Request;
+var TK003Response = /** @class */ (function () {
+    function TK003Response(Seq, Msg) {
+        this.Seq = Seq;
+        this.Msg = Msg;
     }
-}
-
-export class KakaoSocket {
-    private mtIP: string;
-    private mtURL: string;
-    private mtPort: number;
-    private hpURL: string;
-    private IN0002_URL: string;
-    private IN0002_PARAM: string;
-    private ls: any;
-    private nOTP: any;
-    private options: any;
-    private kakaoDb: any;
-    private inputDatas: TB_AUTOCHAT_SCENARIO[];
-    // public  Q             = require("q");
-    private validator     = require('validator');
-    private net           = require('net');
-    private spawn         = require('child_process').spawn;
-    // private fastXmlParser = require('fast-xml-parser');
-    private errorSuccess  = '{"keyboard":{"type":"text"}, "message":{"text":"고객님의 죄송합니다!. 시스템 점검중으로 잠시후 다시 시도하여 주십시요.\n 처음으로 가시려면 "#"을 입력해 주세요."}}';
-                        //  위 시스템 회신 문자는  SYS_ERR
-
-    /* private io의 경우 본 api 서버가 기동 될때 한번 불러와서 여러번 사용한다. 
+    return TK003Response;
+}());
+exports.TK003Response = TK003Response;
+var KakaoSocket = /** @class */ (function () {
+    //  위 시스템 회신 문자는  SYS_ERR
+    /* private io의 경우 본 api 서버가 기동 될때 한번 불러와서 여러번 사용한다.
        그렇게 되면 본 class를 사용하는 쪽에서 한번에 생성해야 한다.
     */
     // constructor(private io: TB_AUTOCHAT_SCENARIO[]) {
-     constructor( private io: any, private db: any) {
+    function KakaoSocket(io, db) {
+        this.io = io;
+        this.db = db;
+        // public  Q             = require("q");
+        this.validator = require('validator');
+        this.net = require('net');
+        this.spawn = require('child_process').spawn;
+        // private fastXmlParser = require('fast-xml-parser');
+        this.errorSuccess = '{"keyboard":{"type":"text"}, "message":{"text":"고객님의 죄송합니다!. 시스템 점검중으로 잠시후 다시 시도하여 주십시요.\n 처음으로 가시려면 "#"을 입력해 주세요."}}';
         this.inputDatas = io;
         this.kakaoDb = db;
         this.mtURL = "http://125.132.2.120:30063";
@@ -283,72 +84,64 @@ export class KakaoSocket {
         //LIVE
         //this.mtIP = "125.132.2.111";
         //this.mtPort = 30063;
-
         this.hpURL = "http://172.16.180.224:30034"; //dev
         // this.hpURL = "http://172.16.28.27:30034"; //live
         this.IN0002_URL = "/interface/tbroad/xml_module/CustInvoiceDtlXml";
         //this.IN0002_PARAM = "KEY_NUM=1234561234567&MONTH_CNT=2&NM_CUST=홍길동&CORP=3200&ID_INSERT=U000000000";
         this.IN0002_PARAM = "CORP=TBRD&KEY_NUM=MC0GCCqGSIb3DQIJAyEAgw8aXEa%2FEaSbidYQzkCI9WfamqzaFtL%2F7NOaD8JNWGU%3D&NM_CUST=%C1%A4%BC%B1%BF%B5&MONTH_CNT=2";
         this.options = {
-                            attrPrefix: "@_",
-                            textNodeName: "#text",
-                            ignoreNonTextNodeAttr: true,
-                            ignoreTextNodeAttr: true,
-                            ignoreNameSpace: true,
-                            textNodeConversion: true
-                        };
-
+            attrPrefix: "@_",
+            textNodeName: "#text",
+            ignoreNonTextNodeAttr: true,
+            ignoreTextNodeAttr: true,
+            ignoreNameSpace: true,
+            textNodeConversion: true
+        };
     }
-
-
-    public setSystemScenario(results: any): void {
+    KakaoSocket.prototype.setSystemScenario = function (results) {
         this.inputDatas = results;
-    }
-
-    public setKakaoDb(Db: any): void {
+    };
+    KakaoSocket.prototype.setKakaoDb = function (Db) {
         this.kakaoDb = Db;
-    }
-
+    };
     // Add signal
-    public findScenario(tagName: string): string {
-        if( this.inputDatas != null ) {
-
-        // this.inputData.filter(function (item) { console.log(item.REQ_MESSAGE); return item.REQ_MESSAGE === tagName; });
-            var rtnObj: TB_AUTOCHAT_SCENARIO[] = this.inputDatas.filter( inputData => inputData.REQ_MESSAGE === ""+tagName);
-            if( rtnObj != null ) {
+    KakaoSocket.prototype.findScenario = function (tagName) {
+        if (this.inputDatas != null) {
+            // this.inputData.filter(function (item) { console.log(item.REQ_MESSAGE); return item.REQ_MESSAGE === tagName; });
+            var rtnObj = this.inputDatas.filter(function (inputData) { return inputData.REQ_MESSAGE === "" + tagName; });
+            if (rtnObj != null) {
                 return rtnObj[0].RES_MESSAGE;
             }
             else {
                 return null;
             }
         }
-        else { return this.errorSuccess;}
-    }
-
-    public getKeyboardResponse(content: string, callback: any): void {
+        else {
+            return this.errorSuccess;
+        }
+    };
+    KakaoSocket.prototype.getKeyboardResponse = function (content, callback) {
         var re;
         var Q = require('q');
-        Q.all([this.kakaoDb.dbSelectScenario(content)]).then(function(results){
+        Q.all([this.kakaoDb.dbSelectScenario(content)]).then(function (results) {
             re = results[0][0][0];
-        }).then(function() {
+        }).then(function () {
             callback(null, JSON.parse(re.RES_MESSAGE).keyboard);
         })
-        .done();
-    }
-
-    public clearCustomer(content: string, callback: any): void {
+            .done();
+    };
+    KakaoSocket.prototype.clearCustomer = function (content, callback) {
         var re;
         var Q = require('q');
         console.log('clearCustomer:content : ' + content);
-        Q.all([this.kakaoDb.dbClearCustomer(content)]).then(function(results){
+        Q.all([this.kakaoDb.dbClearCustomer(content)]).then(function (results) {
             re = results[0][0][0];
-        }).then(function() {
+        }).then(function () {
             callback(null, re);
         })
-        .done();
-    }
-
-    public getMessageResponseNew(content: string, user_key: string, type: string, callback: any): void {
+            .done();
+    };
+    KakaoSocket.prototype.getMessageResponseNew = function (content, user_key, type, callback) {
         var re;
         var etc3;
         var kakaoDb = this.kakaoDb;
@@ -360,160 +153,166 @@ export class KakaoSocket {
         var validator = require('validator');
         var bFlag = true; //insertHistoryAndCallback call true/false check
         // var localeString = require('number-to-locale-string');
-
-        if(user_key != null && content != null) {
-
-            Q.all([this.kakaoDb.dbLoadAuthOkCustomer(user_key), this.kakaoDb.dbLoadAuthIngCustomer(user_key), this.kakaoDb.dbCheckHistory(user_key)]).then(function(results){
+        if (user_key != null && content != null) {
+            Q.all([this.kakaoDb.dbLoadAuthOkCustomer(user_key), this.kakaoDb.dbLoadAuthIngCustomer(user_key), this.kakaoDb.dbCheckHistory(user_key)]).then(function (results) {
                 customerAuthOkInfo = results[0][0][0];
                 customerAuthIngInfo = results[1][0][0];
                 customerHistoryInfo = results[2][0][0];
-            }).then(function() { // case#4 one-bridge
-                if(content == "#" || content == "처음으로") content = "keyboard";
-                Q.all([kakaoDb.dbSelectScenario(content)]).then(function(results) { 
-                    if( results[0][0][0] != null ) {
+            }).then(function () {
+                if (content == "#" || content == "처음으로")
+                    content = "keyboard";
+                Q.all([kakaoDb.dbSelectScenario(content)]).then(function (results) {
+                    if (results[0][0][0] != null) {
                         re = kakaoSocket.setStartButton(results[0][0][0].RES_MESSAGE, results[0][0][0].STEP);
                         etc3 = results[0][0][0].ETC3;
                     }
-                }).then(function() {
-                    if(re == null) {
-                        if( customerAuthOkInfo != null ) {
+                }).then(function () {
+                    if (re == null) {
+                        if (customerAuthOkInfo != null) {
                             re = kakaoSocket.findScenario("INPUT_ERR");
-                        } else if ( customerAuthOkInfo == null && customerAuthIngInfo != null ) {
+                        }
+                        else if (customerAuthOkInfo == null && customerAuthIngInfo != null) {
                             /* Name 있니?, Phone 있니?, 인증번호가 있니? 확인해서 인증 처리를 한다. */
-                            if( customerAuthIngInfo.PHONE == null ) {
-                                if( validator.isDecimal(content) != true ) { // 숫자 비교해서 같은면
+                            if (customerAuthIngInfo.PHONE == null) {
+                                if (validator.isDecimal(content) != true) {
                                     re = kakaoSocket.findScenario("PHONE_NOK");
                                     // 혹시 두번 호출해서 오류가 올라오나 막아본다, 2017.10.18
                                     //if(re != null) kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
-                                } else {
-                                    Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Phone", content, user_key)]).then(function(results) {
+                                }
+                                else {
+                                    Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Phone", content, user_key)]).then(function (results) {
                                         console.log("dbSaveCustomer call!");
-                                    }).then(function() {
+                                    }).then(function () {
                                         re = kakaoSocket.findScenario("NAME");
                                         console.log("dbSaveCustomer call! ==> " + JSON.stringify(re));
-                                    }).then(function() {
-                                        if(re != null) kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                    }).then(function () {
+                                        if (re != null)
+                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                                     }).done();
                                 }
-                            } else if( customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME == null ) {
-                                Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Name", content, user_key)]).then(function(results) {
+                            }
+                            else if (customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME == null) {
+                                Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Name", content, user_key)]).then(function (results) {
                                     console.log("dbSaveCustomer call!");
                                     customerAuthIngInfo.NAME = content;
-                                }).then(function() {
+                                }).then(function () {
                                     // OTP && 기간계 연동 코드 추가
-                                    Q.all([kakaoSocket.getMTEventJSONTypeTK001Request(customerAuthIngInfo.NAME, customerAuthIngInfo.PHONE, user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
-                                        
-                                        if( results != null && results == "success" ) {
+                                    Q.all([kakaoSocket.getMTEventJSONTypeTK001Request(customerAuthIngInfo.NAME, customerAuthIngInfo.PHONE, user_key, kakaoSocket.kakaoDb, null)]).then(function (results) {
+                                        if (results != null && results == "success") {
                                             //re = results;
                                             console.log("if:rtnStr:" + results + "," + kakaoSocket.nOTP);
-                                            Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Otp", kakaoSocket.nOTP, user_key)]).then(function(results) {
+                                            Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Otp", kakaoSocket.nOTP, user_key)]).then(function (results) {
                                                 console.log("dbSaveCustomer call!");
                                             }).done();
-                                        } else {
-                                            if( results == "E99999" || results == "E00001" || results == "E00002" ||
+                                        }
+                                        else {
+                                            if (results == "E99999" || results == "E00001" || results == "E00002" ||
                                                 results == "E00003" || results == "E00004" || results == "E10000" ||
                                                 results == "E00005" || results == "E00006") {
                                                 re = kakaoSocket.findScenario(results);
-                                            } else {
+                                            }
+                                            else {
                                                 re = kakaoSocket.findScenario("SYS_ERR");
                                             }
                                             console.log("else:rtnStr:" + results + "," + kakaoSocket.nOTP);
-                                            if( re != null ) {
-                                                kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                            if (re != null) {
+                                                kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                                                 bFlag = false;
                                             }
                                         }
-                                    }).then(function() {
+                                    }).then(function () {
                                         // callback(null, re);
                                         re = kakaoSocket.findScenario("AUTH");
                                         //20170824
-                                        if( re != null && bFlag == true) {
-                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                        if (re != null && bFlag == true) {
+                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                                             bFlag = false;
                                         }
                                     }).done();
-                                }).then(function() {
-                                    if( re != null && bFlag == true ) {
+                                }).then(function () {
+                                    if (re != null && bFlag == true) {
                                         //test20180227
-                                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                                         bFlag = false;
                                     }
                                 }).done();
-                            } else if( customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME != null && customerAuthIngInfo.ETC1 != null ) {
-                                if( customerAuthIngInfo.ETC1 == content ) {
-                                    Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Auth", null, user_key)]).then(function(results) {
+                            }
+                            else if (customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME != null && customerAuthIngInfo.ETC1 != null) {
+                                if (customerAuthIngInfo.ETC1 == content) {
+                                    Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Auth", null, user_key)]).then(function (results) {
                                         console.log("dbSaveCustomer call!");
-                                    }).then(function() {
+                                    }).then(function () {
                                         re = kakaoSocket.findScenario("AUTH_OK");
-                                    }).then(function() {
-                                        if( re != null )
-                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                    }).then(function () {
+                                        if (re != null)
+                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                                     }).done();
-                                } else {
+                                }
+                                else {
                                     // 인증번호 입력 오류 재입력 요청
                                     re = kakaoSocket.findScenario("AUTH_NOK");
                                 }
-                            } else {
+                            }
+                            else {
                                 re = kakaoSocket.findScenario("INPUT_ERR");
                             }
-                        } else {
+                        }
+                        else {
                             /* 인증 유도 */
                             re = kakaoSocket.findScenario("SESSION_ERR");
                         }
-
                     }
-                    else { 
-                        if( etc3 == "interface" && customerAuthOkInfo != null ) {
+                    else {
+                        if (etc3 == "interface" && customerAuthOkInfo != null) {
                             /* 20180227 new version TK003 start */
                             re = null;
-                            Q.all([kakaoSocket.getMTEventJSONTypeTK003Request( user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
-                                if( results != null ) {
-console.log("rtnStr:" + results.length);
-                                    if( results == "E99999" || results == "E00001" || results == "E00002" ||
+                            Q.all([kakaoSocket.getMTEventJSONTypeTK003Request(user_key, kakaoSocket.kakaoDb, null)]).then(function (results) {
+                                if (results != null) {
+                                    console.log("rtnStr:" + results.length);
+                                    if (results == "E99999" || results == "E00001" || results == "E00002" ||
                                         results == "E00003" || results == "E00004" || results == "E10000" ||
                                         results == "E00005" || results == "E00006") {
-                                          re = kakaoSocket.findScenario(results);
-                                    } else if( String(results).length > 6) {
-console.log(JSON.stringify(results));
+                                        re = kakaoSocket.findScenario(results);
+                                    }
+                                    else if (String(results).length > 6) {
+                                        console.log(JSON.stringify(results));
                                         var jsonData = JSON.parse(results);
-                                        var Seq: string = "";
-                                        var Msg: string = "";
-                                        
-                                        if( jsonData != null && jsonData.pay != null && jsonData.pay.length > 1 ) {
+                                        var Seq = "";
+                                        var Msg = "";
+                                        if (jsonData != null && jsonData.pay != null && jsonData.pay.length > 1) {
                                             var responseBody = jsonData.pay[0];
-console.log("0. responseBody:" + JSON.stringify(responseBody));
-
-                                            for ( var i = 0; i < jsonData.pay.length; i++ ) {
+                                            console.log("0. responseBody:" + JSON.stringify(responseBody));
+                                            for (var i = 0; i < jsonData.pay.length; i++) {
                                                 responseBody = jsonData.pay[i];
                                                 Seq = Seq + responseBody.Seq;
                                                 Msg = Msg + responseBody.Msg;
-
-                                                if ( i+1 < jsonData.pay.length ) {
+                                                if (i + 1 < jsonData.pay.length) {
                                                     Seq = Seq + ",";
                                                     Msg = Msg + ",";
                                                 }
                                             }
-                                        } else {
+                                        }
+                                        else {
                                             var responseBody = jsonData.pay[0];
-console.log("1. responseBody:" + JSON.stringify(responseBody));
+                                            console.log("1. responseBody:" + JSON.stringify(responseBody));
                                             Seq = responseBody.Seq;
                                             Msg = responseBody.Msg;
                                         }
-
                                         var printString = "고객님 안녕하세요!" +
-                                        "\r\n\r\n" + 
-                                        "\r\n" + "- : " + Number(Seq)+1 +
-                                        "\r\n" + "" + Msg + 
-                                        "\r\n\r\n" + "감사합니다.";
-                                        re = {"keyboard":{"buttons":["처음으로"], "type":"buttons"},"message":{"text":printString}};
-                                    } else {
+                                            "\r\n\r\n" +
+                                            "\r\n" + "- : " + Number(Seq) + 1 +
+                                            "\r\n" + "" + Msg +
+                                            "\r\n\r\n" + "감사합니다.";
+                                        re = { "keyboard": { "buttons": ["처음으로"], "type": "buttons" }, "message": { "text": printString } };
+                                    }
+                                    else {
                                         re = kakaoSocket.findScenario("SYS_ERR");
                                     }
                                 }
-                            }).then(function() {
+                            }).then(function () {
                                 // callback(null, re);
-                                if( re != null )
-                                    kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                if (re != null)
+                                    kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                             }).done();
                             /* 20180227 new version TK003 end */
                             /* 20180227 old version
@@ -602,23 +401,23 @@ console.log(JSON.stringify(results));
 
                                         var printString = "고객님 안녕하세요!" +
                                         "\r\n" + String(responseBody.Invoices.invoice.YyyymmInv).substring(4) + "월 요금내역은 다음과 같습니다" +
-                                        "\r\n\r\n[기본 정보]" + 
+                                        "\r\n\r\n[기본 정보]" +
                                         "\r\n" + "- 고객명 : " + responseBody.Name + //: "김두수"
                                         "\r\n" + "- 고객번호 : " + responseBody.Id + //: 1006218626
                                         "\r\n" + "- 서비스 상태 : " + responseBody.Status + //: "사용중"
                                         "\r\n" + "- 전화번호(1) : " + responseBody.Phone + //: "041-549-5938"
                                         "\r\n" + "- 전화번호(2) : " + responseBody.HandPhone + //: "010-4417-5938"
                                         "\r\n" + "- 이메일 : " + responseBody.Email + //: "dskim@tbroad.com"
-                                        "\r\n\r\n[청구 정보]" + 
+                                        "\r\n\r\n[청구 정보]" +
                                         "\r\n" + "- 납부자명 : " + responseBody.AccountName + //: "김두수"
                                         "\r\n" + "- 납부자번호 : " + responseBody.AccountId + //: 1001155633
                                         "\r\n" + "- 청구매체 : " + kakaoSocket.convertArrayCount(media) + //responseBody.Media + //: "이메일"
                                         "\r\n" + "- 은행/카드명 : " + kakaoSocket.convertArrayCount(financialName) + //responseBody.FinancialName + //: "신한카드"
                                         "\r\n" + "- 납부방법 : " + kakaoSocket.convertArrayCount(payMethod) +  //responseBody.PayMethod + //: "신용카드"
                                         "\r\n" + "- 납부예정일 : " + responseBody.IssueDate + //: 15
-                                        "\r\n\r\n[" + String(responseBody.Invoices.invoice.YyyymmInv).substring(4) + "월 청구 정보]" + 
+                                        "\r\n\r\n[" + String(responseBody.Invoices.invoice.YyyymmInv).substring(4) + "월 청구 정보]" +
                                         "\r\n" + "- 사용일 : " + calcStartDay + " ~ " + calcEndDay + //: 20170731
-                                        "\r\n" + "- 당월청구금액 : " + amtCurInv.toLocaleString("krw") + "원" + //: 6600 
+                                        "\r\n" + "- 당월청구금액 : " + amtCurInv.toLocaleString("krw") + "원" + //: 6600
                                         "\r\n" + "- 청구월 : " + responseBody.Invoices.invoice.YyyymmInv + //: 201708
                                         "\r\n" + "- 서비스명 : " + kakaoSocket.convertArrayCount(service) + //: "디지털방송"
                                         "\r\n" + "- 사용료 : " + amtUse.toLocaleString("krw") +  "원" + //: 27600
@@ -660,61 +459,59 @@ console.log(JSON.stringify(results));
                                     kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
                             }).done();
                             */
-                        } else if( etc3 == "interface" && customerAuthOkInfo == null ) {
+                        }
+                        else if (etc3 == "interface" && customerAuthOkInfo == null) {
                             re = kakaoSocket.findScenario("PHONE");
-                            
-                            Q.all([kakaoSocket.kakaoDb.dbClearCustomer(user_key)]).then(function(results) {
+                            Q.all([kakaoSocket.kakaoDb.dbClearCustomer(user_key)]).then(function (results) {
                                 console.log("dbClearCustomer call!");
-                            }).then(function() {
-                                Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Init", null, user_key)]).then(function(results) {
+                            }).then(function () {
+                                Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Init", null, user_key)]).then(function (results) {
                                     console.log("dbSaveCustomer call!");
                                 }).done();
                             }).done();
-                        } else {
+                        }
+                        else {
                             console.log("re:" + JSON.stringify(re));
                         }
                     }
-                }).then(function() {
-                    if( re != null )
-                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                }).then(function () {
+                    if (re != null)
+                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function (err, data) { callback(err, data); });
                 }).done();
             }).done();
-        } else {
+        }
+        else {
             callback("user Key 또는 입력 정보가 NULL 입니다.", this.findScenario("SYS_ERR"));
         }
-    }
-
-    public setStartButton(res_message: any, step: any): any {
+    };
+    KakaoSocket.prototype.setStartButton = function (res_message, step) {
         var re = res_message;
         var msg = JSON.parse(res_message);
-        if( step != '1' ) {
-            if( msg.keyboard.buttons && msg.keyboard.buttons != null /*&& msg.keyboard.buttons.length > 0*/ ) {
+        if (step != '1') {
+            if (msg.keyboard.buttons && msg.keyboard.buttons != null /*&& msg.keyboard.buttons.length > 0*/) {
                 msg.keyboard.buttons.push("처음으로");
                 re = JSON.stringify(msg);
-            } else { /* 왜 이걸 했을까? */
+            }
+            else {
                 msg.keyboard.push("{\"buttons\":[\"일반 문의\"]}");
                 re = JSON.stringify(msg);
             }
         }
-
         return re;
-    }
-
-    public insertHistoryAndCallback(content: string, user_key: string, re: any, err:any, callback: any) {
+    };
+    KakaoSocket.prototype.insertHistoryAndCallback = function (content, user_key, re, err, callback) {
         var Q = require('q');
-        Q.all([this.kakaoDb.dbSaveHistory(content, user_key, re)]).then(function(results) {
+        Q.all([this.kakaoDb.dbSaveHistory(content, user_key, re)]).then(function (results) {
             console.log(JSON.stringify(results));
-        }).then(function() {
+        }).then(function () {
             console.log("insertHistoryAndCallback:" + err + "," + JSON.stringify(re));
             callback(err, re);
         }).done();
-    }
-
+    };
     // public checkCustomerInfo(rtnStr: any): any {
     //     var updateType = null;
     //     var contentValidation = null;
     //     var re = null;
-
     //     if( rtnStr == null) {
     //         updateType = "INS_PHONE";
     //         re = this.findScenario("PHONE");
@@ -737,12 +534,11 @@ console.log(JSON.stringify(results));
     //     } else {
     //         re = this.findScenario("AUTH_NOK");
     //     }
-
     //     return re;
     // }
-
-    public getMTEventJSONTypeTK001Request(name:string, phone:string, uniqueid:string, pool:any, rtnStr:any): string {
-        var Q      = require("q");
+    KakaoSocket.prototype.getMTEventJSONTypeTK001Request = function (name, phone, uniqueid, pool, rtnStr) {
+        var _this = this;
+        var Q = require("q");
         var deferred = Q.defer();
         // local case
         this.ls = this.spawn('/Users/gotaejong/projects/WorkspacesHTML5/tmsg-v5/shorturl');
@@ -753,86 +549,73 @@ console.log(JSON.stringify(results));
         //this.ls = this.spawn('/home/icr/201708/tmsg-v3/shorturl');
         var mtIP = this.mtIP;
         var mtPort = this.mtPort;
-        this.ls.stdout.on(
-            'data', (data) => {
-                this.nOTP = data;
-                if( this.nOTP != null ) {
-                    var requestBody = this.setTK001RequestData(TK001Request, name, phone, uniqueid, this.nOTP);
-                    var sendData = this.setTK001RequestHeader( JSON.stringify(requestBody));
-
-                    console.log('CONNECTED TO: ' + mtIP + ':' + mtPort + "," + sendData);
-                    var client = new this.net.Socket();
-                    client.setTimeout(10000);
-                    client.connect(mtPort, mtIP, function () {
-                        // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client 
-                        client.write(sendData);
-                    });
-                    // Add a 'data' event handler for the client socket
-                    // data is what the server sent to this socket
-                    client.on('data', function (data) {
-                        console.log("data:" + data);
-                        var str = new String(data);
-                        //test 0000000102TK00120170823230327201708232303281E99999
-                        var returnCode = str.substring(44).substring(0, 6);
-console.log("returnCode:" + returnCode);
-                        if( returnCode == "E00000")
-                            deferred.resolve("success");
-                        else
-                            deferred.resolve(returnCode);
-
-                        client.destroy();
-                    });
-                    // Add a 'close' event handler for the client socket
-                    client.on('close', function () {
-                        console.log('Connection closed');
-                        //
-                        //deferred.promise;
-                    });
-
-                    client.on('timeout', function() {
-                        console.log('Socket Timeout'); 
-                        deferred.resolve("timeout");
-                    })
-
-                    client.on('error', function(error) {
-                        console.log('Socket Error:' + error); 
-                        deferred.resolve("socketerr");
-                    })
-                }
-                else {
-                    deferred.resolve("syscallerr");
-                }
+        this.ls.stdout.on('data', function (data) {
+            _this.nOTP = data;
+            if (_this.nOTP != null) {
+                var requestBody = _this.setTK001RequestData(TK001Request, name, phone, uniqueid, _this.nOTP);
+                var sendData = _this.setTK001RequestHeader(JSON.stringify(requestBody));
+                console.log('CONNECTED TO: ' + mtIP + ':' + mtPort + "," + sendData);
+                var client = new _this.net.Socket();
+                client.setTimeout(10000);
+                client.connect(mtPort, mtIP, function () {
+                    // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client 
+                    client.write(sendData);
+                });
+                // Add a 'data' event handler for the client socket
+                // data is what the server sent to this socket
+                client.on('data', function (data) {
+                    console.log("data:" + data);
+                    var str = new String(data);
+                    //test 0000000102TK00120170823230327201708232303281E99999
+                    var returnCode = str.substring(44).substring(0, 6);
+                    console.log("returnCode:" + returnCode);
+                    if (returnCode == "E00000")
+                        deferred.resolve("success");
+                    else
+                        deferred.resolve(returnCode);
+                    client.destroy();
+                });
+                // Add a 'close' event handler for the client socket
+                client.on('close', function () {
+                    console.log('Connection closed');
+                    //
+                    //deferred.promise;
+                });
+                client.on('timeout', function () {
+                    console.log('Socket Timeout');
+                    deferred.resolve("timeout");
+                });
+                client.on('error', function (error) {
+                    console.log('Socket Error:' + error);
+                    deferred.resolve("socketerr");
+                });
             }
-        );
-
-        this.ls.stderr.on('data', (data) => {
-            console.log(`stderr: ${data}`);
-            deferred.resolve("syscallerr");
-        // retry ? 
+            else {
+                deferred.resolve("syscallerr");
+            }
         });
-
-        this.ls.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
+        this.ls.stderr.on('data', function (data) {
+            console.log("stderr: " + data);
+            deferred.resolve("syscallerr");
+            // retry ? 
+        });
+        this.ls.on('close', function (code) {
+            console.log("child process exited with code " + code);
             //deferred.resolve("success");
             //
             //deferred.promise;
         });
-
         return deferred.promise;
-    }
-
-    public getMTEventJSONTypeTK002Request(uniqueid:string, pool:any, rtnStr:any): string {
-        var Q      = require("q");
+    };
+    KakaoSocket.prototype.getMTEventJSONTypeTK002Request = function (uniqueid, pool, rtnStr) {
+        var Q = require("q");
         var deferred = Q.defer();
-        var readBuffer:string;
+        var readBuffer;
         var bytes = require('utf8-byte-length');
-
         var mtIP = this.mtIP;
         var mtPort = this.mtPort;
-
         var requestBody = this.setTK002RequestData(TK002Request, uniqueid, "0");
-        var sendData = this.setTK002RequestHeader( JSON.stringify(requestBody));
-
+        var sendData = this.setTK002RequestHeader(JSON.stringify(requestBody));
         // var sendData = messageSize + sendMessage;
         console.log('CONNECTED TO: ' + mtIP + ':' + mtPort + "," + sendData);
         readBuffer = "";
@@ -845,58 +628,49 @@ console.log("returnCode:" + returnCode);
             // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client 
             client.write(sendData);
         });
-
         // Add a 'data' event handler for the client socket
         // data is what the server sent to this socket
         client.on('data', function (data) {
-            
             readBuffer = readBuffer + data;
             console.log(readBuffer);
             //client.destroy();
-        });//.resume().on('data', function (data) {console.log("2nd data:" + data.toString());});
+        }); //.resume().on('data', function (data) {console.log("2nd data:" + data.toString());});
         // Add a 'close' event handler for the client socket
         client.on('close', function () {
             console.log('Connection closed');
-            
         });
-
-        client.on('timeout', function() {
-            console.log('Socket Timeout'); 
+        client.on('timeout', function () {
+            console.log('Socket Timeout');
             // deferred.resolve("timeout");
             var returnCode = readBuffer.substring(44).substring(0, 6);
             console.log("returnCode:" + returnCode);
-            if( returnCode == "E00000") {
+            if (returnCode == "E00000") {
                 var returnJSON = readBuffer.substring(100).substring(0);
                 deferred.resolve(returnJSON);
             }
-            else if( String(returnCode).length > 1 ) {
+            else if (String(returnCode).length > 1) {
                 deferred.resolve(returnCode);
-            } else {
+            }
+            else {
                 //client.setNoDelay(true); 동 코드를 넣지 않을 경우 Timeout이 두번 발생할 경우 문제가 있다. 
                 //deferred.resolve("E99999");
             }
         });
-
-        client.on('error', function(error) {
-            console.log('Socket Error:' + error); 
+        client.on('error', function (error) {
+            console.log('Socket Error:' + error);
             deferred.resolve("socketerr");
         });
-
         return deferred.promise;
-    }
-
-    public getMTEventJSONTypeTK003Request(uniqueid:string, pool:any, rtnStr:any): string {
-        var Q      = require("q");
+    };
+    KakaoSocket.prototype.getMTEventJSONTypeTK003Request = function (uniqueid, pool, rtnStr) {
+        var Q = require("q");
         var deferred = Q.defer();
-        var readBuffer:string;
+        var readBuffer;
         var bytes = require('utf8-byte-length');
-
         var mtIP = this.mtIP;
         var mtPort = this.mtPort;
-
         var requestBody = this.setTK003RequestData(TK003Request, uniqueid);
-        var sendData = this.setTK003RequestHeader( JSON.stringify(requestBody));
-
+        var sendData = this.setTK003RequestHeader(JSON.stringify(requestBody));
         // var sendData = messageSize + sendMessage;
         console.log('CONNECTED TO: ' + mtIP + ':' + mtPort + "," + sendData);
         readBuffer = "";
@@ -909,109 +683,92 @@ console.log("returnCode:" + returnCode);
             // Write a message to the socket as soon as the client is connected, the server will receive it as message from the client 
             client.write(sendData);
         });
-
         // Add a 'data' event handler for the client socket
         // data is what the server sent to this socket
         client.on('data', function (data) {
-            
             readBuffer = readBuffer + data;
             console.log(readBuffer);
             //client.destroy();
-        });//.resume().on('data', function (data) {console.log("2nd data:" + data.toString());});
+        }); //.resume().on('data', function (data) {console.log("2nd data:" + data.toString());});
         // Add a 'close' event handler for the client socket
         client.on('close', function () {
             console.log('Connection closed');
-            
         });
-
-        client.on('timeout', function() {
-            console.log('Socket Timeout'); 
+        client.on('timeout', function () {
+            console.log('Socket Timeout');
             // deferred.resolve("timeout");
             var returnCode = readBuffer.substring(44).substring(0, 6);
             console.log("returnCode:" + returnCode);
-            if( returnCode == "E00000") {
+            if (returnCode == "E00000") {
                 var returnJSON = readBuffer.substring(100).substring(0);
                 deferred.resolve(returnJSON);
             }
-            else if( String(returnCode).length > 1 ) {
+            else if (String(returnCode).length > 1) {
                 deferred.resolve(returnCode);
-            } else {
+            }
+            else {
                 //client.setNoDelay(true); 동 코드를 넣지 않을 경우 Timeout이 두번 발생할 경우 문제가 있다. 
                 //deferred.resolve("E99999");
             }
         });
-
-        client.on('error', function(error) {
-            console.log('Socket Error:' + error); 
+        client.on('error', function (error) {
+            console.log('Socket Error:' + error);
             deferred.resolve("socketerr");
         });
-
         return deferred.promise;
-    }
-
-    private getNowyyyymmddhhmmss(): string {
+    };
+    KakaoSocket.prototype.getNowyyyymmddhhmmss = function () {
         var now = new Date();
         var yyyy = now.getFullYear();
         var mm = now.getMonth() < 9 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1); // getMonth() is zero-based
-        var dd  = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
+        var dd = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
         var hh = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
         var min = now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
         var ss = now.getSeconds() < 10 ? "0" + now.getSeconds() : now.getSeconds();
         return "".concat("" + yyyy).concat("" + mm).concat("" + dd).concat("" + hh).concat("" + min).concat("" + ss);
-    }
-
-    public getNowmSevendays(): string {
+    };
+    KakaoSocket.prototype.getNowmSevendays = function () {
         var now = new Date();
-        var mm;        
-
-        if( now.getDate() > 7 ) {
+        var mm;
+        if (now.getDate() > 7) {
             mm = now.getMonth() < 9 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1); // getMonth() is zero-based
-        } else {
-            mm = (now.getMonth() -1) < 9 ? "0" + ((now.getMonth() - 1) + 1) : ((now.getMonth() - 1) + 1); // getMonth() is zero-based
         }
-        
+        else {
+            mm = (now.getMonth() - 1) < 9 ? "0" + ((now.getMonth() - 1) + 1) : ((now.getMonth() - 1) + 1); // getMonth() is zero-based
+        }
         return "".concat("" + mm).concat("" + "월");
-    }
-
-    public convertArrayCount(input: string): string { 
-
+    };
+    KakaoSocket.prototype.convertArrayCount = function (input) {
         var array = input.split(",");
         var results = new Array();
-        for (var j=0; j<array.length; j++) {
-
+        for (var j = 0; j < array.length; j++) {
             var key = array[j].toString();
-            if( results.indexOf(key) == -1 )
+            if (results.indexOf(key) == -1)
                 results.push(key);
             if (results[key] != null) {
-
                 results[key] = results[key] + 1;
-            } else {
-
+            }
+            else {
                 results[key] = 1;
             }
         }
-
         var str = "";
-
         for (var i = 0; i < results.length; i++) {
             // str = str + "\t" + results[results[i].toString()] + ": " + "\t" + results[i] + "\n";
-            if( i== 0 ) {
+            if (i == 0) {
                 str = str + results[i] + " ";
-            } else {
+            }
+            else {
                 str = str + results[i] + " " + results[results[i].toString()] + "개";
             }
-            
-            if ( i+1 < results.length ) {
+            if (i + 1 < results.length) {
                 str = str + ",";
             }
         }
-
         return str;
-    }
-
-    public setTK001RequestHeader(requestBody: string ): string {
+    };
+    KakaoSocket.prototype.setTK001RequestHeader = function (requestBody) {
         var bytes = require('utf8-byte-length');
-
         // var Length = 100 + requestBody.length;
         var Length = 100 + bytes(requestBody);
         var Type = "TK001";
@@ -1020,25 +777,21 @@ console.log("returnCode:" + returnCode);
         var Flag = "S";
         var ResultCode = "E00000";
         var filler = " ";
-//console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
+        //console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
         return this.lpad(Length, 10) +
-            Type + 
+            Type +
             SendDate +
             ReSendDate +
             Flag +
             ResultCode +
             this.lpadBlank(filler, 50) +
             requestBody;
-    }
-
-    public setTK001RequestData(reqJsondata: TK001RequestConstructor, name:string, phone:string, uniqueid:string, otpnum:number): TK001Request {
+    };
+    KakaoSocket.prototype.setTK001RequestData = function (reqJsondata, name, phone, uniqueid, otpnum) {
         return new reqJsondata(name, phone, uniqueid, "SMS", "KAKAO", "인증문자 번호는 " + otpnum + "입니다! 5분이내 입력을 부탁 드립니다.", phone, "07081870000");
-
-    }
-
-    public setTK002RequestHeader(requestBody: string ): string {
+    };
+    KakaoSocket.prototype.setTK002RequestHeader = function (requestBody) {
         var bytes = require('utf8-byte-length');
-
         // var Length = 100 + requestBody.length;
         var Length = 100 + bytes(requestBody);
         var Type = "TK002";
@@ -1047,20 +800,18 @@ console.log("returnCode:" + returnCode);
         var Flag = "S";
         var ResultCode = "E00000";
         var filler = " ";
-//console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
+        //console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
         return this.lpad(Length, 10) +
-            Type + 
+            Type +
             SendDate +
             ReSendDate +
             Flag +
             ResultCode +
             this.lpadBlank(filler, 50) +
             requestBody;
-    }
-
-    public setTK003RequestHeader(requestBody: string ): string {
+    };
+    KakaoSocket.prototype.setTK003RequestHeader = function (requestBody) {
         var bytes = require('utf8-byte-length');
-
         // var Length = 100 + requestBody.length;
         var Length = 100 + bytes(requestBody);
         var Type = "TK003";
@@ -1069,61 +820,44 @@ console.log("returnCode:" + returnCode);
         var Flag = "S";
         var ResultCode = "E00000";
         var filler = " ";
-console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
+        console.log("Length:" + Length + "(" + (100 + requestBody.length) + ")");
         return this.lpad(Length, 10) +
-            Type + 
+            Type +
             SendDate +
             ReSendDate +
             Flag +
             ResultCode +
             this.lpadBlank(filler, 50) +
             requestBody;
-    }
-
-    public setTK002RequestData(reqJsondata: TK002RequestConstructor, uniqueid:string, monthcnt:string): TK002Request {
-        return new reqJsondata(uniqueid,monthcnt);
-
-    }
-
-    public setTK002ResponseData(reqJsondata: TK002ResponseConstructor, customer: TK002_RESPONSE_customer, code: TK002_RESPONSE_code ): TK002Response {
+    };
+    KakaoSocket.prototype.setTK002RequestData = function (reqJsondata, uniqueid, monthcnt) {
+        return new reqJsondata(uniqueid, monthcnt);
+    };
+    KakaoSocket.prototype.setTK002ResponseData = function (reqJsondata, customer, code) {
         return new reqJsondata(customer, code);
-    }
-
-    public setTK003RequestData(reqJsondata: TK003RequestConstructor, uniqueid:string): TK003Request {
+    };
+    KakaoSocket.prototype.setTK003RequestData = function (reqJsondata, uniqueid) {
         return new reqJsondata(uniqueid);
-
-    }
-
-    public setTK003ResponseData(reqJsondata: TK003ResponseConstructor, Seq:string, Msg:string ): TK003Response {
+    };
+    KakaoSocket.prototype.setTK003ResponseData = function (reqJsondata, Seq, Msg) {
         return new reqJsondata(Seq, Msg);
-    }
-
+    };
     // public setTK002ResponseData(reqJsondata: TK002ResponseConstructor, list:TK002_RESPONSE_list): TK002Response {
     //     return new reqJsondata(list);
     // }
-
-    public lpad(num:number, size:number): string {
-        var s = num+"";
-        while (s.length < size) s = "0" + s;
+    KakaoSocket.prototype.lpad = function (num, size) {
+        var s = num + "";
+        while (s.length < size)
+            s = "0" + s;
         return s;
-    }
-
-    public lpadBlank(char:string, size:number): string {
-        var s = char+"";
-        while (s.length < size) s = " " + s;
+    };
+    KakaoSocket.prototype.lpadBlank = function (char, size) {
+        var s = char + "";
+        while (s.length < size)
+            s = " " + s;
         return s;
-    }
-}
-
-
-export interface TB_AUTOCHAT_SCENARIO {
-    SEQ: number;
-    STEP: number;
-    TRUN: number;
-    REQ_MESSAGE: string;
-    RES_MESSAGE: string;
-    WRTDATA: string;
-    ETC1: string;
-    ETC2: string;
-    ETC3: string;
-}
+    };
+    return KakaoSocket;
+}());
+exports.KakaoSocket = KakaoSocket;
+//# sourceMappingURL=kakao.js.map
