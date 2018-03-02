@@ -502,7 +502,7 @@ console.log("1. responseBody:" + JSON.stringify(responseBody));
 
                                         var printString = "고객님 안녕하세요!" +
                                         "\r\n\r\n" + 
-                                        "\r\n" + "- : " + Number(Seq)+1 +
+                                        "\r\n" + "- " + Number(Seq)+1 +
                                         "\r\n" + "" + Msg + 
                                         "\r\n\r\n" + "감사합니다.";
                                         re = {"keyboard":{"buttons":["처음으로"], "type":"buttons"},"message":{"text":printString}};
