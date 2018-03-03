@@ -481,7 +481,7 @@ console.log(JSON.stringify(results));
                                         
                                         if( jsonData != null && jsonData.pay != null && jsonData.pay.length > 1 ) {
                                             var responseBody = jsonData.pay[0];
-console.log("responseBody:" + JSON.stringify(responseBody));
+console.log("0. responseBody:" + JSON.stringify(responseBody));
 
                                             for ( var i = 0; i < jsonData.pay.length; i++ ) {
                                                 responseBody = jsonData.pay[i];
@@ -494,16 +494,15 @@ console.log("responseBody:" + JSON.stringify(responseBody));
                                                 }
                                             }
                                         } else {
-                                            var responseBody = jsonData.pay;
-console.log("responseBody:" + JSON.stringify(responseBody));
-                                            Seq = Seq + responseBody.Seq;
-                                            Msg = Msg + responseBody.Msg;
+                                            var responseBody = jsonData.pay[0];
+console.log("1. responseBody:" + JSON.stringify(responseBody));
+                                            Seq = responseBody.Seq;
+                                            Msg = responseBody.Msg;
                                         }
 
                                         var printString = "고객님 안녕하세요!" +
-                                        "\r\n\r\n" + 
-                                        "\r\n" + "- : " + Seq + //: "김두수"
-                                        "\r\n" + "" + Msg + //: 1006218626
+                                        "\r\n" + 
+                                        "\r\n" + "" + Msg + 
                                         "\r\n\r\n" + "감사합니다.";
                                         re = {"keyboard":{"buttons":["처음으로"], "type":"buttons"},"message":{"text":printString}};
                                     } else {
