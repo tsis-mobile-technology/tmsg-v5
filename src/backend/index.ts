@@ -96,7 +96,8 @@ export class Backend {
         var re;
         this.kakao_io.emit('chat message', content);
         try {
-            this.kakaoSocket.getMessageResponseNew(content, user_key, type, function(err, data) {
+            //this.kakaoSocket.getMessageResponseNew(content, user_key, type, function(err, data) {
+            this.kakaoSocket.getMessageResponseOld(content, user_key, type, function(err, data) {    
                 if(err) {
                     console.log('message:응답 에러:'+err);
                     re = data;

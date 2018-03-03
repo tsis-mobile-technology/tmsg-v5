@@ -516,7 +516,146 @@ console.log("responseBody:" + JSON.stringify(responseBody));
                                     kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
                             }).done();
                             /* 20180227 new version TK003 end */
-                            /* 20180227 old version
+                        } else if( etc3 == "interface" && customerAuthOkInfo == null ) {
+                            re = kakaoSocket.findScenario("PHONE");
+                            
+                            Q.all([kakaoSocket.kakaoDb.dbClearCustomer(user_key)]).then(function(results) {
+                                console.log("dbClearCustomer call!");
+                            }).then(function() {
+                                Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Init", null, user_key)]).then(function(results) {
+                                    console.log("dbSaveCustomer call!");
+                                }).done();
+                            }).done();
+                        } else {
+                            console.log("re:" + JSON.stringify(re));
+                        }
+                    }
+                }).then(function() {
+                    if( re != null )
+                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                }).done();
+            }).done();
+        } else {
+            callback("user Key 또는 입력 정보가 NULL 입니다.", this.findScenario("SYS_ERR"));
+        }
+    }
+
+    public getMessageResponseOld(content: string, user_key: string, type: string, callback: any): void {
+        var re;
+        var etc3;
+        var kakaoDb = this.kakaoDb;
+        var customerAuthOkInfo = null;
+        var customerAuthIngInfo = null;
+        var customerHistoryInfo = null;
+        var kakaoSocket = this;
+        var Q = require('q');
+        var validator = require('validator');
+        var bFlag = true; //insertHistoryAndCallback call true/false check
+        // var localeString = require('number-to-locale-string');
+
+        if(user_key != null && content != null) {
+
+            Q.all([this.kakaoDb.dbLoadAuthOkCustomer(user_key), this.kakaoDb.dbLoadAuthIngCustomer(user_key), this.kakaoDb.dbCheckHistory(user_key)]).then(function(results){
+                customerAuthOkInfo = results[0][0][0];
+                customerAuthIngInfo = results[1][0][0];
+                customerHistoryInfo = results[2][0][0];
+            }).then(function() { // case#4 one-bridge
+                if(content == "#" || content == "처음으로") content = "keyboard";
+                Q.all([kakaoDb.dbSelectScenario(content)]).then(function(results) { 
+                    if( results[0][0][0] != null ) {
+                        re = kakaoSocket.setStartButton(results[0][0][0].RES_MESSAGE, results[0][0][0].STEP);
+                        etc3 = results[0][0][0].ETC3;
+                    }
+                }).then(function() {
+                    if(re == null) {
+                        if( customerAuthOkInfo != null ) {
+                            re = kakaoSocket.findScenario("INPUT_ERR");
+                        } else if ( customerAuthOkInfo == null && customerAuthIngInfo != null ) {
+                            /* Name 있니?, Phone 있니?, 인증번호가 있니? 확인해서 인증 처리를 한다. */
+                            if( customerAuthIngInfo.PHONE == null ) {
+                                if( validator.isDecimal(content) != true ) { // 숫자 비교해서 같은면
+                                    re = kakaoSocket.findScenario("PHONE_NOK");
+                                    // 혹시 두번 호출해서 오류가 올라오나 막아본다, 2017.10.18
+                                    //if(re != null) kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                } else {
+                                    Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Phone", content, user_key)]).then(function(results) {
+                                        console.log("dbSaveCustomer call!");
+                                    }).then(function() {
+                                        re = kakaoSocket.findScenario("NAME");
+                                        console.log("dbSaveCustomer call! ==> " + JSON.stringify(re));
+                                    }).then(function() {
+                                        if(re != null) kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                    }).done();
+                                }
+                            } else if( customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME == null ) {
+                                Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Name", content, user_key)]).then(function(results) {
+                                    console.log("dbSaveCustomer call!");
+                                    customerAuthIngInfo.NAME = content;
+                                }).then(function() {
+                                    // OTP && 기간계 연동 코드 추가
+                                    Q.all([kakaoSocket.getMTEventJSONTypeTK001Request(customerAuthIngInfo.NAME, customerAuthIngInfo.PHONE, user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
+                                        
+                                        if( results != null && results == "success" ) {
+                                            //re = results;
+                                            console.log("if:rtnStr:" + results + "," + kakaoSocket.nOTP);
+                                            Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Otp", kakaoSocket.nOTP, user_key)]).then(function(results) {
+                                                console.log("dbSaveCustomer call!");
+                                            }).done();
+                                        } else {
+                                            if( results == "E99999" || results == "E00001" || results == "E00002" ||
+                                                results == "E00003" || results == "E00004" || results == "E10000" ||
+                                                results == "E00005" || results == "E00006") {
+                                                re = kakaoSocket.findScenario(results);
+                                            } else {
+                                                re = kakaoSocket.findScenario("SYS_ERR");
+                                            }
+                                            console.log("else:rtnStr:" + results + "," + kakaoSocket.nOTP);
+                                            if( re != null ) {
+                                                kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                                bFlag = false;
+                                            }
+                                        }
+                                    }).then(function() {
+                                        // callback(null, re);
+                                        re = kakaoSocket.findScenario("AUTH");
+                                        //20170824
+                                        if( re != null && bFlag == true) {
+                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                            bFlag = false;
+                                        }
+                                    }).done();
+                                }).then(function() {
+                                    if( re != null && bFlag == true ) {
+                                        //test20180227
+                                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                        bFlag = false;
+                                    }
+                                }).done();
+                            } else if( customerAuthIngInfo.PHONE != null && customerAuthIngInfo.NAME != null && customerAuthIngInfo.ETC1 != null ) {
+                                if( customerAuthIngInfo.ETC1 == content ) {
+                                    Q.all([kakaoSocket.kakaoDb.dbSaveCustomer("Auth", null, user_key)]).then(function(results) {
+                                        console.log("dbSaveCustomer call!");
+                                    }).then(function() {
+                                        re = kakaoSocket.findScenario("AUTH_OK");
+                                    }).then(function() {
+                                        if( re != null )
+                                            kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                    }).done();
+                                } else {
+                                    // 인증번호 입력 오류 재입력 요청
+                                    re = kakaoSocket.findScenario("AUTH_NOK");
+                                }
+                            } else {
+                                re = kakaoSocket.findScenario("INPUT_ERR");
+                            }
+                        } else {
+                            /* 인증 유도 */
+                            re = kakaoSocket.findScenario("SESSION_ERR");
+                        }
+
+                    }
+                    else { 
+                        if( etc3 == "interface" && customerAuthOkInfo != null ) {
                             //20170824
                             re = null;
                             Q.all([kakaoSocket.getMTEventJSONTypeTK002Request( user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
@@ -659,7 +798,6 @@ console.log(JSON.stringify(results));
                                 if( re != null )
                                     kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
                             }).done();
-                            */
                         } else if( etc3 == "interface" && customerAuthOkInfo == null ) {
                             re = kakaoSocket.findScenario("PHONE");
                             
