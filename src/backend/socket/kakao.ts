@@ -486,7 +486,7 @@ console.log("0. responseBody:" + JSON.stringify(responseBody));
                                             for ( var i = 0; i < jsonData.pay.length; i++ ) {
                                                 responseBody = jsonData.pay[i];
                                                 Seq = Seq + responseBody.Seq;
-                                                Msg = Msg + responseBody.Msg;
+                                                Msg = Msg + responseBody.Msg + "\r\n";
 
                                                 if ( i+1 < jsonData.pay.length ) {
                                                     Seq = Seq + ",";
