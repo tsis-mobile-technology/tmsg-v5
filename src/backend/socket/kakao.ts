@@ -486,11 +486,11 @@ console.log("0. responseBody:" + JSON.stringify(responseBody));
                                             for ( var i = 0; i < jsonData.pay.length; i++ ) {
                                                 responseBody = jsonData.pay[i];
                                                 Seq = Seq + responseBody.Seq;
-                                                Msg = Msg + responseBody.Msg + "\r\n";
+                                                Msg = Msg + responseBody.Msg ;
 
                                                 if ( i+1 < jsonData.pay.length ) {
                                                     Seq = Seq + ",";
-                                                    Msg = Msg + ",";
+                                                    Msg = Msg + "\r\n\r\n";
                                                 }
                                             }
                                         } else {
