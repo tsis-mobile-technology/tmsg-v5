@@ -468,20 +468,20 @@ export class KakaoSocket {
                             re = null;
                             Q.all([kakaoSocket.getMTEventJSONTypeTK003Request( user_key, kakaoSocket.kakaoDb, null)]).then(function(results) {
                                 if( results != null ) {
-console.log("rtnStr:" + results.length);
+//console.log("rtnStr:" + results.length);
                                     if( results == "E99999" || results == "E00001" || results == "E00002" ||
                                         results == "E00003" || results == "E00004" || results == "E10000" ||
                                         results == "E00005" || results == "E00006") {
                                           re = kakaoSocket.findScenario(results);
                                     } else if( String(results).length > 6) {
-console.log(JSON.stringify(results));
+// console.log(JSON.stringify(results));
                                         var jsonData = JSON.parse(results);
                                         var Seq: string = "";
                                         var Msg: string = "";
                                         
                                         if( jsonData != null && jsonData.pay != null && jsonData.pay.length > 1 ) {
                                             var responseBody = jsonData.pay[0];
-console.log("0. responseBody:" + JSON.stringify(responseBody));
+// console.log("0. responseBody:" + JSON.stringify(responseBody));
 
                                             for ( var i = 0; i < jsonData.pay.length; i++ ) {
                                                 responseBody = jsonData.pay[i];
@@ -495,7 +495,7 @@ console.log("0. responseBody:" + JSON.stringify(responseBody));
                                             }
                                         } else {
                                             var responseBody = jsonData.pay[0];
-console.log("1. responseBody:" + JSON.stringify(responseBody));
+// console.log("1. responseBody:" + JSON.stringify(responseBody));
                                             Seq = responseBody.Seq;
                                             Msg = responseBody.Msg;
                                         }
