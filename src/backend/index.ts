@@ -208,8 +208,10 @@ export class Backend {
     this.kakao_io = socket(this.kakao_server);
 
     // Set Redis adapter
-    const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
-    this.kakao_io.adapter(redis(REDIS_URL));
+	// Perpose redis?
+	// break...
+    //const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+    //this.kakao_io.adapter(redis(REDIS_URL));
 
     // Set room socket
     //let roomSocket = new RoomSocket(this.kakao_io);
