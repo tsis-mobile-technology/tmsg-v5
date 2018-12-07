@@ -821,6 +821,52 @@ console.log(JSON.stringify(results));
         }
     }
 
+    public getMessageResponseWatson(content: string, user_key: string, type: string, watson: any, callback: any): void {
+        var re;
+        var etc3;
+        var kakaoDb = this.kakaoDb;
+        var customerAuthOkInfo = null;
+        var customerAuthIngInfo = null;
+        var customerHistoryInfo = null;
+        var kakaoSocket = this;
+        var Q = require('q');
+        var validator = require('validator');
+        var bFlag = true; //insertHistoryAndCallback call true/false check
+        // var localeString = require('number-to-locale-string');
+
+        if(user_key != null && content != null) {
+
+            Q.all([this.kakaoDb.dbLoadAuthOkCustomer(user_key), this.kakaoDb.dbLoadAuthIngCustomer(user_key), this.kakaoDb.dbCheckHistory(user_key)]).then(function(results){
+                customerAuthOkInfo = results[0][0][0];
+                customerAuthIngInfo = results[1][0][0];
+                customerHistoryInfo = results[2][0][0];
+            }).then(function() { // case#4 one-bridge
+                if(content == "#" || content == "처음으로") content = "keyboard";
+                Q.all([kakaoDb.dbSelectScenario(content)]).then(function(results) { 
+                    if( results[0][0][0] != null ) {
+                        re = kakaoSocket.setStartButton(results[0][0][0].RES_MESSAGE, results[0][0][0].STEP);
+                        etc3 = results[0][0][0].ETC3;
+                    }
+                }).then(function() {
+                    if(re == null) {
+                        /* watson call */
+                        re = watson.requestWatsonMessage(watson.workspace_id, content);
+
+                    } else if( re != null ) {
+                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                    }
+                }).then(function() {
+                    if( re != null ) {
+                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                    } 
+                }).done();
+            }).done();
+        } else {
+            callback("user Key 또는 입력 정보가 NULL 입니다.", this.findScenario("SYS_ERR"));
+        }
+    }
+
+
     public setStartButton(res_message: any, step: any): any {
         var re = res_message;
         var msg = JSON.parse(res_message);

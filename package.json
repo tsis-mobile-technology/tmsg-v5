@@ -1,12 +1,12 @@
 {
-  "name": "angular-socket-io-chat-example",
+  "name": "tmsg-v5",
   "version": "1.1.3",
   "description": "An example Angular chat app, made on top of ExpressJS & Socket.io.",
-  "homepage": "https://github.com/jussikinnula/",
-  "repository": "https://github.com/jussikinnula/angular-socket-io-chat",
+  "homepage": "https://github.com/tsis-mobile-technology/",
+  "repository": "https://github.com/tsis-mobile-technology/tmsg-v5",
   "author": {
-    "name": "Jussi Kinnula",
-    "email": "jussi.kinnula@gmail.com"
+    "name": "gainworld",
+    "email": "gainwrold@gmail.com"
   },
   "license": "GPL-3.0",
   "engines": {
@@ -50,6 +50,7 @@
     "@types/socket.io-redis": "^1.0.21",
     "angular2-template-loader": "^0.6.2",
     "autoprefixer": "^7.1.2",
+    "body-parser": "~1.15.2",
     "core-js": "^2.4.1",
     "css-loader": "^0.28.4",
     "express": "^4.15.3",
@@ -60,8 +61,10 @@
     "json-loader": "^0.5.4",
     "moment": "^2.18.1",
     "mongoose": "^4.11.3",
+    "mysql": "*",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",
+    "q": "1.5.0",
     "raw-loader": "^0.5.1",
     "reflect-metadata": "^0.1.10",
     "rimraf": "^2.6.1",
@@ -76,15 +79,13 @@
     "ts-loader": "^2.3.1",
     "ts-node": "^3.2.1",
     "typescript": "^2.4.2",
+    "utf8-byte-length": "*",
+    "validator": "~7.2.0",
+    "watson-developer-cloud": "^3.13.1",
     "webpack": "3.3.0",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-merge": "^4.1.0",
-    "zone.js": "^0.8.14",
-    "body-parser": "~1.15.2",
-    "validator": "~7.2.0",
-    "q": "1.5.0",
-    "mysql": "*",
-    "utf8-byte-length": "*"
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@types/webpack": "^3.0.4",

@@ -6,7 +6,7 @@ import * as socket from 'socket.io';
 import * as mongoose from 'mongoose';
 import * as redis from 'socket.io-redis';
 
-import { KakaoSocket, KakaoDb } from './socket';
+import { KakaoSocket, KakaoDb, Watson } from './socket';
 
 var bodyParser    = require('body-parser');
 
@@ -21,6 +21,7 @@ export class Backend {
   private kakao_io: any;
   private mongo: mongoose.MongooseThenable;
   private port: number;
+  private watson: any;
 
   constructor() {
     // Create expressjs application
@@ -28,6 +29,7 @@ export class Backend {
     this.kakaoSocket = new KakaoSocket(null, this.kakaoDb);
     this.kakao_app = express();
     // this.app = express();
+    this.watson = new Watson();
 
     // Setup routes
     this.routes();
@@ -97,7 +99,8 @@ export class Backend {
         this.kakao_io.emit('chat message', content);
         try {
             //this.kakaoSocket.getMessageResponseNew(content, user_key, type, function(err, data) {
-            this.kakaoSocket.getMessageResponseOld(content, user_key, type, function(err, data) {    
+            //this.kakaoSocket.getMessageResponseOld(content, user_key, type, function(err, data) {    
+            this.kakaoSocket.getMessageResponseWatson(content, user_key, type, this.watson, function(err, data) {
                 if(err) {
                     console.log('message:응답 에러:'+err);
                     re = data;
