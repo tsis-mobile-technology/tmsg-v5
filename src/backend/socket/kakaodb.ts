@@ -14,25 +14,25 @@ export class KakaoDb {
 //   database: 'SMART_MESSAGE_VERTWO',
 //   debug: false
 // });
-//this.pool = this.mysql.createPool({
-// connectionLimit: 10, //important
-// host     : 'localhost',
-// user     : 'icr',
-// password : '1q2w3e4r5t',
-// port     : 3306,
-// database : 'SMART_MESSAGE_VERTWO',
-// debug: false
-//});
-// console.log("KakaoDB constructor()");
 this.pool = this.mysql.createPool({
-  connectionLimit: 20,
-  host: '125.132.2.20',
-  user: 'icr',
-  password: '1q2w3e4r5t^Y',
-  port: 3306,
-  database: 'SMART_MESSAGE_VERTHREE',
-  debug: false
+ connectionLimit: 10, //important
+ host     : 'localhost',
+ user     : 'root',
+ password : '1q2w3e4r5t',
+ port     : 3306,
+ database : 'SMART_MESSAGE_VERTWO',
+ debug: false
 });
+// console.log("KakaoDB constructor()");
+//this.pool = this.mysql.createPool({
+//  connectionLimit: 20,
+//  host: '125.132.2.20',
+//  user: 'icr',
+//  password: '1q2w3e4r5t^Y',
+//  port: 3306,
+//  database: 'SMART_MESSAGE_VERTHREE',
+//  debug: false
+//});
   }
 
 	public dbCheckHistory(user_key: string): any {

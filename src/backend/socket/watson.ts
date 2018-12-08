@@ -13,47 +13,24 @@ export class Watson {
 		console.log("watsonplatform connect");
 	}
 
-	public requestWatsonMessage(ws_id, text) {
-		/*
-		return new Promise<{name: string; alias: string}>(res => {
-			setTimeout(() => {
-				res(this.assistant.message({
-					workspace_id: ws_id,
-					input: {'text': text} // 'Hello'
-					},  
-					function(err, response) {
-						if (err) {
-							console.log('error:', err);
-							return err;
-						}
-						else {
-							console.log(JSON.stringify(response, null, 2));
-							return JSON.stringify(response, null, 2);
-						}
-					}
-				));
-				//res(hero[handle]);
-			}, 1000);
-		});
-		*/
-
-
-		
+	public requestWatsonMessage(ws_id: string, text: string, callback: any) : any {
 		return this.assistant.message({
 			workspace_id: ws_id,
 			input: {'text': text} // 'Hello'
-			},  
+			},
+			callback  
+			/*
 			function(err, response) {
 				if (err) {
 					console.log('error:', err);
-					return err;
+					callback = err;
 				}
 				else {
-					console.log(JSON.stringify(response, null, 2));
-					return response;
+					//console.log(JSON.stringify(response, null, 2));
+					callback = JSON.stringify(response, null, 2);
 				}
 			}
+			*/
 		);
-		
 	}
 }

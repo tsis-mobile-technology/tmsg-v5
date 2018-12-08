@@ -850,15 +850,23 @@ console.log(JSON.stringify(results));
                 }).then(function() {
                     if(re == null) {
                         /* watson call */
-                        re = watson.requestWatsonMessage(watson.workspace_id, content);
-
+                        var rtnVal: any = null;
+                        watson.requestWatsonMessage(watson.workspace_id, content, 
+                            function(err, response) {
+                                if (err) {
+                                    console.log('error:', err);
+                                }
+                                else {
+                                    console.log(JSON.stringify(response, null, 2));
+                                    re = JSON.stringify(response);
+                                    kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
+                                }
+                            }
+                        ); 
+                        console.log(">>>>>>>", rtnVal);
                     } else if( re != null ) {
                         kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
                     }
-                }).then(function() {
-                    if( re != null ) {
-                        kakaoSocket.insertHistoryAndCallback(content, user_key, re, null, function(err, data){callback(err, data);});
-                    } 
                 }).done();
             }).done();
         } else {
