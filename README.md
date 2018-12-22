@@ -83,6 +83,17 @@ ln -sf /usr/local/opt/redis/homebrew.mxcl.redis.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 ```
 
+#### MySQL
+
+```
+sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+sudo mysql
+mysql > ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+mysql > FLUSH PRIVILEGES;
+```
+
 ### Installing prequisities on Windows
 
 You should install installer packages of [NodeJS](https://nodejs.org/en/download/current/), [MongoDB](https://www.mongodb.com/download-center) and [Heroku Toolbelt](https://toolbelt.heroku.com/windows), either 32bit or 64bit depending on your system.
